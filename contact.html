@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Contact – Mes Apps EPS</title><meta name="theme-color" content="#0b4fd0"><link rel="icon" href="icons/icon-192.png"><link rel="stylesheet" href="style.css?v=1"></head><body>
+<header><div class="hd"><img src="icons/logo.png" alt=""><h1>Mes Apps EPS</h1><a class="back" href="index.html">← Accueil</a></div></header><main><article class="doc">
+<h1>Contact</h1>
+<p>Une question, un problème ou une suggestion à propos de Mes Apps EPS ? Ce formulaire prépare un e-mail adressé à <a href="mailto:vinzneuron@gmail.com">vinzneuron@gmail.com</a>. Il s’ouvre dans votre application de messagerie : rien n’est envoyé tant que vous ne validez pas l’envoi, et aucun serveur n’est utilisé.</p>
+<div class="form">
+<label>Votre nom (facultatif)<input id="cn" autocomplete="name"></label>
+<label>Objet<select id="co"><option>Question</option><option>Problème rencontré</option><option>Suggestion d’amélioration</option><option>Proposer une application pour le catalogue</option><option>Autre</option></select></label>
+<label>Message<textarea id="cm" rows="7"></textarea></label>
+<p class="note">N’indiquez aucun nom d’élève ni donnée personnelle d’élève dans votre message.</p>
+<button id="cs">Ouvrir ma messagerie</button>
+<p id="cr" class="err" hidden>Écrivez d’abord votre message.</p>
+</div>
+<p>Si votre messagerie ne s’ouvre pas, écrivez directement à <a href="mailto:vinzneuron@gmail.com">vinzneuron@gmail.com</a>.</p>
+<script>
+document.getElementById('cs').onclick=function(){var m=document.getElementById('cm').value.trim(),n=document.getElementById('cn').value.trim(),o=document.getElementById('co').value;
+document.getElementById('cr').hidden=!!m;if(!m)return;
+location.href='mailto:vinzneuron@gmail.com?subject='+encodeURIComponent('[Mes Apps EPS] '+o)+'&body='+encodeURIComponent((m+(n?'\n\n'+n:'')).replace(/\n/g,'\r\n'))};
+</script>
+<p><a class="btnlink" href="index.html">Retour à l’application</a></p></article></main></body></html>

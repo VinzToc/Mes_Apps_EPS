@@ -1,0 +1,15 @@
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1b2a49;line-height:1.55;min-height:100vh;
+background:radial-gradient(circle at 5% 0,#ff9a2e 0,transparent 38%),radial-gradient(circle at 100% 8%,#8a4dff 0,transparent 40%),radial-gradient(circle at 50% 100%,#2fd64f 0,transparent 42%),radial-gradient(circle at 0 70%,#1f8bff 0,transparent 35%),#dbe6ff;background-attachment:fixed}
+.hd{display:flex;align-items:center;gap:12px;max-width:860px;margin:auto;padding:16px}
+.hd img{width:52px;height:52px;filter:drop-shadow(0 4px 8px #0003)}
+.hd h1{margin:0;font-size:1.4rem;color:#fff;text-shadow:0 2px 4px #0005;flex:1}
+.back{color:#fff;font-weight:800;text-decoration:none;background:linear-gradient(#ffa21f,#ff5e00);padding:9px 14px;border-radius:14px;box-shadow:0 5px 12px #ff5e0066,inset 0 2px 0 #fff6}
+main{max-width:860px;margin:auto;padding:0 16px 40px}
+.doc{background:#fff;border:3px solid #fff;border-radius:22px;padding:22px;box-shadow:0 10px 30px #1b2a4933}
+.doc h1{margin-top:0;background:linear-gradient(90deg,#0040d0,#ff5e00);-webkit-background-clip:text;color:transparent}
+.doc h2{color:#0040d0;margin-top:1.6em}.doc a{color:#0040d0}
+.toc{columns:2;font-size:.92rem}
+.sp{overflow-x:auto}table{border-collapse:collapse;width:100%}th{background:linear-gradient(#1f8bff,#0040d0);color:#fff;padding:9px;text-align:left}td{padding:9px;border-bottom:1px solid #1b2a4920}
+.form label{display:block;font-weight:700;margin:12px 0}.form input,.form select,.form textarea{display:block;width:100%;margin-top:5px;padding:10px;border-radius:12px;border:2px solid #0b4fd033;font:inherit}
+.form button,.btnlink{display:inline-block;border:0;border-radius:14px;padding:11px 18px;font-weight:800;color:#fff;text-decoration:none;cursor:pointer;font-size:.95rem;background:linear-gradient(#1f8bff,#0040d0);box-shadow:0 5px 12px #0040d066,inset 0 2px 0 #fff6}
+.doc a.btnlink{color:#fff}.note{font-size:.85rem;opacity:.8}.err{color:#c0392b;font-weight:700}
