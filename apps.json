@@ -1,4 +1,0 @@
-[
- {"id":"gestion-as","nom":"Gestion AS","desc":"Appel rapide & RGPD par QR codes","url":"https://vinztoc.github.io/Appel_AS_QrCodes_RGPD/","icon":"icons/icon-192_Appel_AS","couleur":"#1f8bff,#0034c4"},
- {"id":"gestion-as-pronote","nom":"Gestion AS version Pronote","desc":"Variante de Gestion AS avec import Pronote","url":"https://vinztoc.github.io/Gestion-AS-version-Pronote/","icon":"icons/icon-192_Appel_AS_Pronote","couleur":"#b030ff,#6a0fd0"}
-]
