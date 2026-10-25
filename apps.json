@@ -3,5 +3,5 @@
  {"id":"appel_qr_pronote","nom":"Gestion AS version Pronote","desc":"Une variante de Gestion AS basée sur l'import Pronote","url":"https://vinztoc.github.io/Gestion-AS-version-Pronote/","icon":"icons/appel_qr_pronote.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
  {"id":"step_eps_eleve","nom":"Step – Carnet élève","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/index.html","icon":"https://vinztoc.github.io/Step_EPS/icons/icon-192.png","emoji":"👟","couleur":"#8b5cf6,#4c1d95"},
  {"id":"step_eps_prof","nom":"Step – Suivi prof","desc":"Carnet des séances des élèves en step et projet d'entraînement","url":"https://vinztoc.github.io/Step_EPS_Prof/index.html","icon":"https://vinztoc.github.io/Step_EPS/icons/icon-192.png","emoji":"📊","couleur":"#c040ff,#6a0fd0"},
- {"id":"exemple","nom": "Prochaine app","desc": "Ajoutez-la dans apps.json","url": "","icon":"icon-192.png",emoji": "➕","couleur": "#b030ff,#6a0fd0"},
+ {"id":"exemple","nom": "Prochaine app","desc": "Ajoutez-la dans apps.json","url": "","icon":"icon-192.png","emoji": "➕","couleur": "#b030ff,#6a0fd0"},
 ]
