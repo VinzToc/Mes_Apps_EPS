@@ -1,0 +1,4 @@
+[
+ {"id":"appel_qr","nom":"Appel AS QR Codes","desc":"Appel rapide par QR codes","url":"https://vinztoc.github.io/Appel_AS_QrCodes_RGPD/","icon":"icons/appel_qr.png","emoji":"📋","couleur":"#1f8bff,#0034c4"},
+ {"id":"exemple","nom":"Prochaine app","desc":"Ajoutez-la dans apps.json","url":"","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
+]
