@@ -7,5 +7,5 @@
  {"id":"tabatimer","nom":"TabaTimer","desc":"Un timer tabata pour structurer vos séances dportives","url":"https://vinztoc.github.io/TabaTimer/","icon":"icons/icon-192-tabatimer.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"statobs","nom":"StatObs","desc":"Statistiques sur observables quantifiables du joueur ou de l'équipe en activités d'opposition.","url":"https://vinztoc.github.io/StatObs/","icon":"icons/icon-192-StatObs.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"chronomulti","nom":"ChronoMulti","desc":"Chrono et timer paramétrable grand format avec enregistrment des données dans Mes Apps EPS","url":"https://vinztoc.github.io/ChronoMulti/","icon":"icons/icon-192-chronomulti.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"exemple","nom":"Prochaine app","desc":"Ajoutez-la dans apps.json","url":"","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
+ {"id":"exemple","nom":"Prochaine app","desc":"Bientôt disponible !","url":"","icon":"icons/icon-192.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]
