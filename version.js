@@ -1,0 +1,1 @@
+const APP_VERSION="1.1.6"; // ← seul endroit à modifier pour changer la version
