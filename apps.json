@@ -1,11 +1,12 @@
 [
- {"id":"appel_qr","nom":"Gestion AS ENT","desc":"Appel rapide par QR codes","url":"https://vinztoc.github.io/Appel_AS_QrCodes_RGPD/","icon":"icons/appel_qr.png","emoji":"📋","couleur":"#b030ff,#6a0fd0"},
- {"id":"appel_qr_pronote","nom":"Gestion AS Pronote","desc":"Une variante de Gestion AS basée sur l'import Pronote","url":"https://vinztoc.github.io/Gestion-AS-version-Pronote/","icon":"icons/appel_qr_pronote.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"},
- {"id":"step_eps_eleve","nom":"Step – Carnet élève","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-192-stepeps-eleve.png","emoji":"👟","couleur":"#b030ff,#6a0fd0"},
- {"id":"step_eps_prof","nom":"Step – Suivi prof","desc":"Carnet des séances des élèves en step et projet d'entraînement","url":"https://vinztoc.github.io/Step_EPS_Prof/","icon":"icons/Icon-192-stepeps-prof.png","emoji":"📊","couleur":"#b030ff,#6a0fd0"},
+ {"id":"appel_qr","nom":"Gestion AS ENT","desc":"Appel rapide par QR codes","url":"https://vinztoc.github.io/Appel_AS_QrCodes_RGPD/","icon":"icons/appel_qr.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"appel_qr_pronote","nom":"Gestion AS Pronote","desc":"Une variante de Gestion AS basée sur l'import Pronote","url":"https://vinztoc.github.io/Gestion-AS-version-Pronote/","icon":"icons/appel_qr_pronote.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"step_eps_eleve","nom":"Step – Carnet élève","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-192-stepeps-eleve.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"step_eps_prof","nom":"Step – Suivi prof","desc":"Carnet des séances des élèves en step et projet d'entraînement","url":"https://vinztoc.github.io/Step_EPS_Prof/","icon":"icons/Icon-192-stepeps-prof.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"orienrun","nom":"OrienRun","desc":"Course d'orientation avec balises GPS et QR","url":"https://vinztoc.github.io/OrienRun/","icon":"icons/icon-192-orienrun.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"tabatimer","nom":"TabaTimer","desc":"Un timer tabata pour structurer vos séances dportives","url":"https://vinztoc.github.io/TabaTimer/","icon":"icons/icon-192-tabatimer.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"statobs","nom":"StatObs","desc":"Statistiques sur observables quantifiables du joueur ou de l'équipe en activités d'opposition.","url":"https://vinztoc.github.io/StatObs/","icon":"icons/icon-192-StatObs.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"chronomulti","nom":"ChronoMulti","desc":"Chrono et timer paramétrable grand format avec enregistrment des données dans Mes Apps EPS","url":"https://vinztoc.github.io/ChronoMulti/","icon":"icons/icon-192-chronomulti.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"chronomulti","nom":"ChronoMulti","desc":"Chrono et timer paramétrable grand format avec enregistrement des données dans Mes Apps EPS","url":"https://vinztoc.github.io/ChronoMulti/","icon":"icons/icon-192-chronomulti.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"vmatest","nom":"VMATest","desc":"Une appli de suivi de test VMA 36-24 avec enregistrement des données dans Mes Apps EPS","url":"https://vinztoc.github.io/Test_VMA_EPS/","icon":"icons/icon-192-VMATest.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"exemple","nom":"Prochaine app","desc":"Bientôt disponible !","url":"","icon":"icons/icon-192.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]
