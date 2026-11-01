@@ -8,7 +8,7 @@
  {"id":"chronomulti","nom":"ChronoMulti","desc":"Chrono et timer paramétrable grand format avec enregistrement des données dans Mes Apps EPS","url":"https://vinztoc.github.io/ChronoMulti/","icon":"icons/icon-192-chronomulti.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"vmatest","nom":"VMATest","desc":"Une appli de suivi de test VMA 36-24 avec enregistrement des données dans Mes Apps EPS","url":"https://vinztoc.github.io/Test_VMA_EPS/","icon":"icons/icon-192-VMATest.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"testaptphys","nom":"TestAptPhys","desc":"Une appli de suivi des tests d'aptitude physique pour les élèves de seconde en LGT et LP","url":"https://vinztoc.github.io/Tests_Aptitude_EPS/","icon":"icons/icon-192-TestAptPhys.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"evalafl","nom":"EvalAFL_2-3","desc":"Une appli pour évaluer en direct les AFL 2 et 3 lors des épreuves du Bac en EPS (GT ou Pro)","url":"https://vinztoc.github.io/EvalAFL_2-3/","icon":"icons/icon-192-EvaAFL.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"evalafl","nom":"EvalAFL_2-3","desc":"Une appli pour évaluer en direct les AFL 2 et 3 lors des épreuves du Bac en EPS (GT ou Pro)","url":"https://vinztoc.github.io/EvalAFL_2-3/","icon":"icons/icon-192-EvalAFL.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"promptpeda","nom":"PromptPeda","desc":"Une appli pour générer des prompt pédagogiques (outils, exercices, situations)","url":"https://vinztoc.github.io/PromptPeda/","icon":"icons/icon-192-PromptPeda.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"exemple","nom":"Prochaine app","desc":"Bientôt disponible !","url":"","icon":"icons/icon-192.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]
