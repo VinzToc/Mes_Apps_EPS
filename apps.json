@@ -8,6 +8,6 @@
  {"id":"testaptphys","nom":"TestAptPhys","desc":"Une appli de suivi des tests d'aptitude physique pour les élèves de seconde en LGT et LP","url":"https://vinztoc.github.io/Tests_Aptitude_EPS/","icon":"icons/icon-192-TestAptPhys.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"evalafl","nom":"EvalAFL 2 & 3","desc":"Une appli pour évaluer en direct les AFL 2 et 3 lors des épreuves du Bac en EPS (GT ou Pro)","url":"https://vinztoc.github.io/EvalAFL_2-3/","icon":"icons/icon-192-EvalAFL.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"promptpeda","nom":"PromptPeda","desc":"Une appli pour générer des prompt pédagogiques (outils, exercices, situations)","url":"https://vinztoc.github.io/PromptPeda/","icon":"icons/icon-192-PromptPeda.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"orierunadmin","nom":"OrienRun Admin","desc":"Appli de paramétrage des courses d'orientation et de récupération des résultats des courses élèves","url":"https://vinztoc.github.io/OrienRun_Admin/","icon":"icons/icon-192-OrienRun-Admin.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"orierunadmin","nom":"OrienRun Admin","desc":"Appli de paramétrage des courses d'orientation et de récupération des résultats des courses élèves","url":"https://vinztoc.github.io/OrienRun_Admin/","icon":"icons/icon-192 -OrienRun-Admin.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"exemple","nom":"Prochaine app","desc":"Bientôt disponible !","url":"","icon":"icons/icon-192.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]
