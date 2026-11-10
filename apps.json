@@ -9,6 +9,6 @@
  {"id":"promptpeda","nom":"PromptPeda","desc":"Une appli pour générer des prompt pédagogiques (outils, exercices, situations)","url":"https://vinztoc.github.io/PromptPeda/","icon":"icons/icon-192-PromptPeda.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"orierunadmin","nom":"OrienRun Admin","desc":"Appli de paramétrage des courses d'orientation et de récupération des résultats des courses élèves","url":"https://vinztoc.github.io/OrienRun_Admin/","icon":"icons/icon-192 -OrienRun-Admin.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"StaObs","nom":"StatObs Prof","desc":"Application d'analyse d'observables quantifiables pour les activités physiques","url":"https://vinztoc.github.io/StatObs/","icon":"icons/icon-192-StatObs-Prof.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"lancers","nom":"Lancers EPS","desc":"Évaluation des lancers (javelot, disque, poids) avec barème personnalisable et enregistrement dans Mes Apps EPS","url":"https://vinztoc.github.io/Lancers_EPS/","icon":"icon-192 -LancerProj-Prof.png","emoji":"🎯","couleur":"#b030ff,#6a0fd0","categorie":"Performances"},
+ {"id":"lancers","nom":"Lancers EPS","desc":"Évaluation des lancers (javelot, disque, poids) avec barème personnalisable et enregistrement dans Mes Apps EPS","url":"https://vinztoc.github.io/Lancers_EPS/","icon":"icons/icon-192 -LancerProj-Prof.png","emoji":"🎯","couleur":"#b030ff,#6a0fd0","categorie":"Performances"},
  {"id":"exemple","nom":"Prochaine app","desc":"Bientôt disponible !","url":"","icon":"icons/icon-192.png","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]
