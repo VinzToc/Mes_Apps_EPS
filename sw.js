@@ -1,5 +1,5 @@
 importScripts('version.js');
-const V='mes-apps-eps-v'+APP_VERSION,F=['./','version.js','index.html','config.js','vendor/qrcode.js','eps-core.js','apps.json','manifest.webmanifest','style.css','contact.html','confidentialite.html','icons/icon-192.png','icons/icon-512.png','icons/logo.png','icons/vinzneuron.png'];
+const V='mes-apps-eps-v'+APP_VERSION,F=['./','version.js','index.html','config.js','qrcode.js','icons/QRCode_Applis_EPS_Eleves.png','eps-core.js','apps.json','manifest.webmanifest','style.css','contact.html','confidentialite.html','icons/icon-192.png','icons/icon-512.png','icons/logo.png','icons/vinzneuron.png'];
 // Installation : chaque fichier est chargé depuis le réseau (sans cache HTTP) ; un fichier manquant ne bloque plus l'installation.
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>Promise.all(F.map(u=>fetch(u,{cache:'reload'}).then(r=>r.ok&&c.put(u,r)).catch(()=>{})))));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))));self.clients.claim()});
