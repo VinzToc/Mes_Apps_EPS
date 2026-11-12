@@ -168,9 +168,19 @@ function fiche(id){const e=L.find(x=>x.id===id);if(!e)return;
  const ord=['Performances','Réalisations','Projets'],gk=[...G.keys()].sort((a,b)=>{const x=ord.indexOf(a),y=ord.indexOf(b);return(x<0?9:x)-(y<0?9:y)||a.localeCompare(b,'fr')});
  const bloc=k=>{const i=info(k),E=entries(e,k).sort((a,b)=>a.iso===b.iso?0:!a.iso?1:!b.iso?-1:a.iso<b.iso?1:-1);
   return `<div class="fa"><h3>${esc(i.emoji||'🧩')} ${esc(i.nom)}<span class="bd">${E.length} saisie(s)</span></h3>`+E.map(x=>`<div class="en">${x.iso?`<div class="dt">${frDate(x.iso)}</div>`:''}<dl>${x.champs.map(([c,v])=>`<dt>${esc(lab(c))}</dt><dd>${esc(val(v))}</dd>`).join('')}</dl></div>`).join('')+'</div>'};
- $('#fbody').innerHTML=`<div class="fh"><div class="av">${esc((e.prenom[0]||'')+(e.nom[0]||''))}</div><div><b>${esc(e.nom.toUpperCase())} ${esc(e.prenom)}</b><br><span>Classe ${esc(e.classe)}</span></div></div>`
+ $('#fbody').innerHTML=`<div class="fh"><div class="av">${esc((e.prenom[0]||'')+(e.nom[0]||''))}</div><div><b>${esc(e.nom.toUpperCase())} ${esc(e.prenom)}</b><br><span>${e.classe?'Classe '+esc(e.classe):'⚠ Classe non renseignée'}</span><br><button class="btn r" id="fed" style="padding:5px 12px;font-size:.8rem;margin-top:6px">✏️ Modifier</button></div></div><div id="fef"></div>`
   +(total?`<p class="tot">${total} saisie(s) dans ${keys.length} application(s)</p>`+gk.map(g=>(gk.length>1||g?`<h4 class="fg">${esc(g||'Autres saisies')}</h4>`:'')+G.get(g).map(bloc).join('')).join(''):'<p class="fn">Aucune saisie enregistrée par les applications pour cet élève.</p>');
- $('#fiche').hidden=false}
+ $('#fed').onclick=()=>editer(e);$('#fiche').hidden=false}
+function editer(e){const f=$('#fef');if(f.innerHTML){f.innerHTML='';return}
+ const cl=[...new Set(L.map(x=>x.classe))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+ f.innerHTML=`<form class="card" id="fe" style="margin:12px 0"><datalist id="dcl">${cl.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
+ <label>Nom<input name="nom" value="${esc(e.nom)}" required></label><label>Prénom<input name="prenom" value="${esc(e.prenom)}" required></label>
+ <label>Classe<input name="classe" list="dcl" value="${esc(e.classe)}" placeholder="ex : 2GATL1"></label>
+ <label>Né(e) le (facultatif)<input name="naissance" value="${esc(e.naissance)}" placeholder="JJ/MM/AAAA"></label><label>Régime (facultatif)<input name="regime" value="${esc(e.regime)}"></label>
+ <div class="err" id="fee"></div><div class="row"><button class="btn b">💾 Enregistrer</button><button type="button" class="btn r" id="fea">Annuler</button></div></form>`;
+ $('#fea').onclick=()=>f.innerHTML='';
+ $('#fe').onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));
+  try{const n=await EPS.modifierEleve(e.id,d);await refresh();fiche(n.id)}catch(x){$('#fee').textContent=x.message}}}
 $('#tb').onclick=e=>{const t=e.target.closest('[data-id]');t&&fiche(t.dataset.id)};
 $('#fx').onclick=()=>$('#fiche').hidden=true;$('#fiche').onclick=e=>{if(e.target.id==='fiche')$('#fiche').hidden=true};
 document.onkeydown=e=>{if(e.key==='Escape'){$('#fiche').hidden=true;$('#qrm').hidden=true}};
