@@ -1,8 +1,11 @@
 importScripts('version.js');
-const V='mes-apps-eps-v'+APP_VERSION,F=['./','version.js','index.html','config.js','qrcode.js','icons/QRCode_Applis_EPS_Eleves.png','eps-core.js','apps.json','manifest.webmanifest','style.css','contact.html','confidentialite.html','icons/icon-192.png','icons/icon-512.png','icons/logo.png','icons/vinzneuron.png'];
-// Installation : chaque fichier est chargé depuis le réseau (sans cache HTTP) ; un fichier manquant ne bloque plus l'installation.
+const V='mes-apps-eps-v'+APP_VERSION,F=['./', 'version.js', 'index.html', 'config.js', 'qrcode.js', 'icons/QRCode_Applis_EPS_Eleves.png', 'eps-core.js', 'apps.json', 'manifest.webmanifest', 'style.css', 'contact.html', 'confidentialite.html', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/logo.png', 'icons/vinzneuron.png'];
+const T=2500; // si le réseau ne répond pas en 2,5 s (wifi sans Internet, borne coupée…), on sert tout de suite la copie hors ligne
+const net=r=>new Promise((ok,ko)=>{const t=setTimeout(()=>ko(new Error('timeout')),T);fetch(r,{cache:'no-cache'}).then(x=>{clearTimeout(t);ok(x)},e=>{clearTimeout(t);ko(e)})});
+// Installation : chaque fichier est chargé séparément ; un fichier manquant ne bloque plus l'installation (donc le mode hors ligne).
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>Promise.all(F.map(u=>fetch(u,{cache:'reload'}).then(r=>r.ok&&c.put(u,r)).catch(()=>{})))));self.skipWaiting()});
-self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))));self.clients.claim()});
-// Réseau d'abord (toujours la dernière version en ligne), cache en secours (hors ligne).
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;
- e.respondWith(fetch(e.request,{cache:'no-cache'}).then(r=>{if(r.ok&&new URL(e.request.url).origin===location.origin){const c=r.clone();caches.open(V).then(x=>x.put(e.request,c))}return r}).catch(()=>caches.match(e.request,{ignoreSearch:true})))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('mes-apps-eps')&&x!==V).map(x=>caches.delete(x)))));self.clients.claim()});
+// Réseau d'abord (dernière version en ligne), copie locale en secours (hors ligne ou réseau trop lent).
+self.addEventListener('fetch',e=>{const q=e.request;if(q.method!=='GET')return;
+ e.respondWith(net(q).then(r=>{if(r.ok){const c=r.clone();caches.open(V).then(x=>x.put(q,c))}return r})
+  .catch(()=>caches.match(q,{ignoreSearch:true}).then(h=>h||(q.mode==='navigate'?caches.match('index.html').then(x=>x||caches.match('./')):undefined)||Response.error())))});
