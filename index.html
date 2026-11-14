@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Mes Apps EPS</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14151a">
+<title>Mes Apps</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14151a">
 <link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
 <style>
 :root{--bg:#0a1428;--tx:#eef3ff;--mut:rgba(238,243,255,.62);--glass:rgba(255,255,255,.07);--bd:rgba(255,255,255,.15);--c1:#ff8a1f;--c2:#2f9bff;--g1:rgba(255,138,31,.20);--g2:rgba(47,155,255,.22);--onc:#fff;--c3:#ffd27a;--nav:linear-gradient(135deg,#2f9bff,#0a4fd0);--ok:#6ff0a0;--ko:#ff8f8f}
@@ -35,7 +35,12 @@ input::placeholder{color:rgba(238,243,255,.38)}
 .tile.off{filter:grayscale(.6);opacity:.5;pointer-events:none}
 .rgpd{font-size:.78rem;color:var(--mut);line-height:1.45;margin-top:10px}.rgpd b{color:var(--tx)}
 .err{color:var(--ko);font-weight:700;min-height:1.2em}
-#msg,#msgE{margin-top:10px;font-weight:600}
+#msg,#msgE{margin-top:12px;font-weight:700;font-size:1.08rem;line-height:1.45}#msg:empty,#msgE:empty{display:none}
+#msg:not(:empty),#msgE:not(:empty){padding:11px 15px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--bd)}
+#info{display:block;margin-top:12px;font-size:1.08rem;font-weight:700;line-height:1.45}
+.btn.danger{background:linear-gradient(135deg,#ff4d4d,#c70f1f);box-shadow:0 6px 18px #c70f1f66,inset 0 1px 0 #ffffff55}
+#toast{position:fixed;left:50%;bottom:100px;width:max-content;text-align:center;transform:translate(-50%,30px);opacity:0;pointer-events:none;z-index:99;max-width:min(92vw,520px);padding:14px 20px;border-radius:14px;font-weight:800;font-size:1.05rem;color:#fff;background:linear-gradient(135deg,#17a34a,#0b6b30);box-shadow:0 12px 34px #000a;transition:.3s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
 table{width:100%;border-collapse:collapse;font-size:.9rem}
 th{background:linear-gradient(#17458a,#0d2d5e);color:#fff;padding:10px;text-align:left;position:sticky;top:0;font-size:.8rem;letter-spacing:.03em}
 th:first-child{border-radius:12px 0 0 0}th:last-child{border-radius:0 12px 0 0}
@@ -80,7 +85,7 @@ ul.dn summary{cursor:pointer}ul.dn details{margin:0}.tw{overflow-x:auto}
 ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-radius:10px}ul.dn td,ul.dn th{padding:5px 7px;text-align:left}ul.dn th{background:#17458a;position:static;border-radius:0}
 @media(max-width:520px){h1{font-size:1.35rem}header img{width:62px;height:62px}}
 </style></head><body>
-<header><img src="icons/logo.png" alt="Logo"><div><h1>Mes Apps EPS</h1><p>La boîte à outils numérique du prof d'EPS</p></div></header>
+<header><img src="icons/logo.png" alt="Logo"><div><h1>Mes Apps</h1><p>La boîte à outils numérique du prof d'EPS</p></div></header>
 <main>
 <section id="t1" class="tab act">
  <div class="card"><h2>📥 Import des élèves</h2>
@@ -89,8 +94,7 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
   <h2 style="margin-top:18px">📤 Import des fichiers élèves (.xlsx)</h2>
   <label class="drop" id="dropE"><span>Glissez ici un ou plusieurs fichiers .xlsx issus des applis du portail « Applis EPS Élèves »</span><span class="btn b">📂 Choisir des fichiers élèves</span><input id="fileE" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple hidden></label>
   <div id="msgE"></div>
-  <div class="row"><button class="btn" id="dlbase" hidden>⬇ Télécharger le fichier de base (.xlsx)</button></div>
-  <div class="row"><span id="info" style="font-size:.85rem;font-weight:600"></span></div>
+  <div id="info"></div>
   <p class="rgpd">🔒 RGPD : les données restent <b>uniquement sur cet appareil</b> (stockage local du navigateur). Aucun serveur, aucun suivi, aucun cookie. Chaque import fusionne et met à jour la liste globale (les données ajoutées par les applications sont conservées).</p>
  </div>
  <div class="card"><h2>🧰 Applis pour le prof</h2><div class="grid" id="apps"></div></div>
@@ -104,9 +108,10 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
  <div id="sum" class="sum"></div>
  <div class="wrap"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
  <p class="rgpd" id="hint"></p>
- <div class="row"><button class="btn b" id="exp">⬇ Exporter le fichier compilé (.xlsx)</button><button class="btn r" id="clr">🗑 Effacer toutes les données</button></div>
+ <div class="row"><button class="btn b" id="exp">⬇ Exporter le fichier compilé (.xlsx)</button><button class="btn danger" id="clr">🗑 Effacer toutes les données</button></div>
 </div></section>
 </main>
+<div id="toast" role="status" aria-live="polite"></div>
 <div id="qrm" class="ov" hidden><div class="fc qc"><button id="qx" aria-label="Fermer" class="xb">✕</button>
  <h2 style="margin:0 0 4px">▦ Portail élèves</h2><p class="rgpd" style="margin:0 0 10px">Affichez ce QR code au tableau ou imprimez-le : les élèves le scannent pour ouvrir « Applis EPS Élèves ».</p>
  <div id="qrc" class="qrbox"></div><p id="qru" class="qru"></p><p id="qrmsg" class="rgpd" style="min-height:1.2em"></p>
@@ -116,7 +121,7 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
 <div><a href="http://vinzneuron.free.fr/" target="_blank" rel="noopener noreferrer" aria-label="Site VinZ Neuron" title="VinZ Neuron"><img class="own" src="icons/vinzneuron.png" alt="Logo VinZ Neuron" width="96" height="96"></a></div>
 <div><a href="confidentialite.html">Politique de confidentialité</a></div>
 <div><a class="ic" href="contact.html" aria-label="Contact" title="Contact"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></a><a class="ic" href="http://vinzneuron.free.fr/" target="_blank" rel="noopener noreferrer" aria-label="Site web" title="Site web"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3 3.2 15 0 18M12 3c-3.2 3-3.2 15 0 18"/></svg></a><a class="ic" href="https://www.instagram.com/vinzneuron/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></a><a class="ic" href="https://www.youtube.com/@vinz_neuron" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2" y="5" width="20" height="14" rx="4.5"/><path d="M10 9.2v5.6l5-2.8z" fill="currentColor"/></svg></a></div>
-<p>Mes Apps EPS · Vincent TOCQUIN – « VinZ Neuron »</p>
+<p>Mes Apps · Vincent TOCQUIN – « VinZ Neuron »</p>
 </footer>
 <p class="ver">Version <span id="ver"></span> · données stockées uniquement sur cet appareil</p>
 <nav><button class="act" data-t="t1">🏠 Accueil</button><button data-t="t2">👥 Élèves</button></nav>
@@ -132,7 +137,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.query
 async function refresh(){L=(await EPS.all()).sort((a,b)=>(a.nom+a.prenom).localeCompare(b.nom+b.prenom,'fr'));
  const cl=[...new Set(L.map(e=>e.classe))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));const cur=$('#fc').value;
  $('#fc').innerHTML='<option value="">Toutes les classes</option>'+cl.map(c=>`<option ${c==cur?'selected':''}>${esc(c)}</option>`).join('');
- $('#dlbase').hidden=!L.length;const m=await EPS.meta();$('#info').textContent=L.length?`${L.length} élèves · dernier import : ${new Date(m.v).toLocaleString('fr-FR')} (${m.n})`:'Aucune liste importée pour le moment.';draw()}
+ const m=await EPS.meta();$('#info').textContent=L.length?`${L.length} élèves`+(m&&m.v?` · dernier import : ${new Date(m.v).toLocaleString('fr-FR')} (${m.n})`:''):'Aucune liste importée pour le moment.';draw()}
 let APPS=[];
 const norm=EPS.norm,lab=t=>String(t).replace(/_/g,' '),val=v=>v&&typeof v==='object'?JSON.stringify(v):String(v);
 const info=k=>APPS.find(a=>a.id===k)||APPS.find(a=>norm(a.nom)===norm(k))||{id:k,nom:k,emoji:'🧩'};
@@ -186,7 +191,7 @@ $('#fx').onclick=()=>$('#fiche').hidden=true;$('#fiche').onclick=e=>{if(e.target
 document.onkeydown=e=>{if(e.key==='Escape'){$('#fiche').hidden=true;$('#qrm').hidden=true}};
 $('#fc').onchange=$('#fs').oninput=draw;
 async function imp(f){const m=$('#msg');try{const r=await EPS.importFile(f);m.style.color='#6ff0a0';
- m.textContent=`✅ ${r.add} ajouté(s), ${r.upd} mis à jour.`+(r.apps?` ${r.apps} feuille(s) d'application intégrée(s).`:'')+(r.ign?` ${r.ign} ligne(s) ignorée(s) (élève absent de la liste).`:'')+(r.cols&&r.cols.length?` ⚠ Colonnes absentes : ${r.cols.join(', ')}`:'')+(/\.xlsx$/i.test(f.name)?'':' Le fichier de base .xlsx est prêt : téléchargez-le ci-dessous.');refresh()}catch(e){m.style.color='#ff8f8f';m.textContent='❌ '+e.message}}
+ m.textContent=`✅ ${r.add} ajouté(s), ${r.upd} mis à jour.`+(r.apps?` ${r.apps} feuille(s) d'application intégrée(s).`:'')+(r.ign?` ${r.ign} ligne(s) ignorée(s) (élève absent de la liste).`:'')+(r.cols&&r.cols.length?` ⚠ Colonnes absentes : ${r.cols.join(', ')}`:'')+(/\.xlsx$/i.test(f.name)?'':' La liste est disponible pour toutes vos applications.');refresh()}catch(e){m.style.color='#ff8f8f';m.textContent='❌ '+e.message}}
 async function dl(){EPS.downloadXLSX(await EPS.exportXLSX(),'Mes_Apps_EPS_'+new Date().toISOString().slice(0,10)+'.xlsx')}
 async function impE(fs){const m=$('#msgE');m.style.color='#6ff0a0';m.innerHTML='';let tot={upd:0,apps:0,ign:0};
  for(const f of fs){try{if(!/\.xlsx$/i.test(f.name))throw new Error('format .xlsx attendu');const r=await EPS.importXLSX(await f.arrayBuffer(),f.name,{ignorerEleves:true});tot.upd+=r.upd||0;tot.apps+=r.apps||0;tot.ign+=r.ign||0;
@@ -199,8 +204,11 @@ drE.ondrop=e=>{e.preventDefault();drE.classList.remove('on');impE([...e.dataTran
 $('#file').onchange=e=>e.target.files[0]&&imp(e.target.files[0]);
 const dr=$('#drop');dr.ondragover=e=>{e.preventDefault();dr.classList.add('on')};dr.ondragleave=()=>dr.classList.remove('on');
 dr.ondrop=e=>{e.preventDefault();dr.classList.remove('on');e.dataTransfer.files[0]&&imp(e.dataTransfer.files[0])};
-$('#exp').onclick=$('#dlbase').onclick=dl;
-$('#clr').onclick=async()=>{if(confirm('Effacer définitivement toutes les données élèves de cet appareil ?\n(Pensez à exporter une sauvegarde.)')){await EPS.clear();refresh()}};
+$('#exp').onclick=dl;
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),4500)}
+$('#clr').onclick=async()=>{if(!L.length&&!confirm('Aucun élève n\'est enregistré. Effacer quand même la base ?'))return;
+ if(!confirm('⚠ ATTENTION\n\nEffacer DÉFINITIVEMENT toutes les données élèves de cet appareil ?\n(liste Pronote et toutes les saisies des applications)\n\nPensez à exporter le fichier compilé avant.'))return;
+ try{const n=L.length;await EPS.clear();$('#msg').textContent='';$('#msgE').innerHTML='';await refresh();toast('🗑 Données effacées : '+n+' élève(s) supprimé(s) de cet appareil.')}catch(e){toast('❌ Échec de l\'effacement : '+e.message)}};
 const tc=a=>/^#[0-9a-f]{3,8}\s*,\s*#[0-9a-f]{3,8}$/i.test(a.couleur||'')?` style="--t1:${a.couleur.split(',')[0].trim()};--t2:${a.couleur.split(',')[1].trim()}"`:'';
 function tile(a,base){const ic=a.icon?new URL(a.icon,base).href:'';
  return `<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=48 height=48 style="border-radius:12px;box-shadow:0 3px 8px #0004;background:#fff" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`}
