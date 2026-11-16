@@ -1,1 +1,35 @@
-[]
+[
+ {
+  "id": "vmatest",
+  "nom": "VMATest",
+  "desc": "Réalisation et suivi de test VMA 36-24 avec enregistrement des données",
+  "url": "https://vinztoc.github.io/Test_VMA_EPS/",
+  "icon": "icons/icon-192-VMATest.png",
+  "emoji": "🏃",
+  "couleur": "#b030ff,#6a0fd0",
+  "categorie": "Tests",
+  "cible": "prof",
+  "discipline": "EPS",
+  "activite": "Demi-fond / VMA",
+  "niveau": "Tous niveaux",
+  "besoin": {
+   "pour": "prof",
+   "types": [
+    "suivi",
+    "admin"
+   ],
+   "libelles": [
+    "Suivre les progrès sur le cycle",
+    "Gagner du temps administratif"
+   ],
+   "probleme": "Faire passer le test VMA 36-24 à une classe entière, relever les paliers atteints et conserver les résultats de chaque élève.",
+   "reussite": "La VMA de chaque élève est obtenue en fin de test et enregistrée dans Mes Apps EPS, sans ressaisie.",
+   "objectif": ""
+  },
+  "auteur": "Hervé DEMAILLY",
+  "etablissement": "",
+  "academie": "",
+  "depot": "https://github.com/VinzToc/Test_VMA_EPS",
+  "date": "2026-11-16"
+ }
+]

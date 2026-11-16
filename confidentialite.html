@@ -1,55 +1,133 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Politique de confidentialité – Mes Apps EPS</title><meta name="theme-color" content="#14151a"><link rel="icon" href="icons/icon-192.png"><link rel="stylesheet" href="style.css?v=2"></head><body>
+<title>Politique de confidentialité – Mes Apps EPS</title><meta name="theme-color" content="#14151a"><link rel="icon" href="icons/icon-192.png"><link rel="stylesheet" href="style.css?v=3">
+<style>.encart{border:1px solid var(--bd);border-radius:14px;padding:12px 16px;background:rgba(255,255,255,.05);margin:12px 0}.encart.w{border-color:rgba(255,200,80,.5);background:rgba(255,200,80,.08)}
+.modele{white-space:pre-wrap;font-size:.86rem;line-height:1.5;background:rgba(0,0,0,.35);border-radius:12px;padding:12px 14px;border:1px solid var(--bd)}.doc td,.doc th{vertical-align:top}</style></head><body>
 <header><div class="hd"><img src="icons/logo.png" alt=""><h1>Mes Apps</h1><a class="back" href="index.html">← Accueil</a></div></header><main><article class="doc">
 <h1>Politique de confidentialité</h1>
 <h2>Résumé</h2>
 <ul>
-<li>Mes Apps EPS est un portail qui regroupe des outils pour l’enseignant d’EPS. Il fonctionne sans compte, sans serveur de données et hors ligne.</li>
-<li>La liste d’élèves importée depuis Pronote (fichier .csv) est enregistrée <b>uniquement sur votre appareil</b>, dans la base locale du navigateur (IndexedDB).</li>
-<li>Seules cinq informations sont conservées : nom, prénom, date de naissance, classe et régime. Les autres colonnes du fichier Pronote (adresse e-mail, sexe, tuteur, options…) sont ignorées à l’import.</li>
-<li>Aucun cookie, aucun outil de mesure d’audience, aucune publicité, aucun service tiers de suivi.</li>
-<li>Hébergement des fichiers de l’application (code uniquement, sans donnée d’élève) sur GitHub Pages : <a href="https://github.com/VinzToc/Mes_Apps_EPS" target="_blank" rel="noopener noreferrer">github.com/VinzToc/Mes_Apps_EPS</a>.</li>
+<li>Mes Apps EPS est un portail gratuit qui regroupe des outils pour l'enseignant d'EPS. Il fonctionne <b>sans compte, sans serveur de données</b> et hors ligne.</li>
+<li>La liste d'élèves (export Pronote) et les saisies des applications sont enregistrées <b>uniquement sur l'appareil</b> de l'enseignant, dans la base locale du navigateur. L'auteur du portail ne reçoit et ne voit aucune donnée.</li>
+<li>Ce fonctionnement local réduit fortement les risques, mais <b>ne suffit pas à lui seul à respecter le RGPD</b> : dès qu'un enseignant enregistre des données d'élèves, il s'agit d'un traitement de données personnelles de mineurs, réalisé au nom de l'établissement. Il doit être <b>connu du chef d'établissement, inscrit au registre des traitements</b> et faire l'objet d'une <b>information des élèves et de leurs familles</b> (voir <a href="#s2">« Avant d'utiliser Mes Apps EPS »</a>).</li>
+<li>Aucun cookie, aucune mesure d'audience, aucune publicité, aucun service tiers de suivi. Les fichiers du portail sont hébergés sur GitHub Pages, qui enregistre l'adresse IP des appareils qui les téléchargent (<a href="#s8">section 8</a>).</li>
 </ul>
-<p><em>Dernière mise à jour : octobre 2026.</em></p>
+<p><em>Dernière mise à jour : novembre 2026 (version 1.11 : applis de la communauté, FabrikApplis EPS, cadre RGPD précisé).</em></p>
 <h2>Sommaire</h2>
-<ol class="toc"><li><a href="#s1">Cadre RGPD</a></li><li><a href="#s2">Données stockées localement</a></li><li><a href="#s3">Où elles restent</a></li><li><a href="#s4">Supprimer ou exporter</a></li><li><a href="#s5">Conservation</a></li><li><a href="#s6">Applications du catalogue</a></li><li><a href="#s7">Hébergement</a></li><li><a href="#s8">Vos responsabilités</a></li><li><a href="#s9">Contact</a></li></ol>
-<h2 id="s1">1. Cadre RGPD</h2>
-<p>Mes Apps EPS est une application gratuite qui permet aux enseignants d’EPS de regrouper leurs outils pédagogiques et de partager entre eux une liste d’élèves unique. Dès qu’un enseignant importe une liste d’élèves, il manipule des données à caractère personnel au sens du RGPD.</p>
+<ol class="toc"><li><a href="#s1">Qui est responsable ?</a></li><li><a href="#s2">Avant d'utiliser Mes Apps EPS</a></li><li><a href="#s3">Finalités et base légale</a></li><li><a href="#s4">Données traitées</a></li><li><a href="#s5">Données de santé et observations</a></li><li><a href="#s6">Où sont les données</a></li><li><a href="#s7">Durée de conservation</a></li><li><a href="#s8">Hébergement et transferts</a></li><li><a href="#s9">Sécurité</a></li><li><a href="#s10">Droits des élèves et des familles</a></li><li><a href="#s11">Applis du catalogue et de la communauté</a></li><li><a href="#s12">Applis pour les élèves</a></li><li><a href="#s13">FabrikApplis EPS et IA</a></li><li><a href="#s14">Modèle d'information des familles</a></li><li><a href="#s15">Contact</a></li></ol>
+
+<h2 id="s1">1. Qui est responsable ?</h2>
 <ul>
-<li><b>Finalité</b> — fournir une liste d’élèves commune aux applications pédagogiques (appel, évaluation, suivi, association sportive…) et la consulter par classe.</li>
-<li><b>Minimisation</b> — seuls les champs utiles sont conservés (nom, prénom, date de naissance, classe, régime). Le régime (externe, demi-pensionnaire, interne) est utile à l’organisation de certaines activités ; ne l’importez pas si vous n’en avez pas l’usage.</li>
-<li><b>Sans compte</b> — aucune identification en ligne n’est nécessaire pour utiliser l’application.</li>
-<li><b>Copies locales</b> — les données présentes uniquement sur votre appareil ne peuvent pas être supprimées à distance. Vous gardez la main via l’export, le bouton « Effacer toutes les données » ou la désinstallation.</li>
+<li><b>Responsable de traitement</b> : lorsque Mes Apps EPS est utilisé dans le cadre de l'enseignement, le traitement des données des élèves est réalisé pour le compte de l'établissement. Dans le second degré (collège, lycée), le responsable de traitement est le <b>chef d'établissement</b> ; dans le premier degré, c'est le <b>DASEN</b> (par délégation du recteur).</li>
+<li><b>L'enseignant</b> met en œuvre l'outil sous l'autorité du responsable de traitement et applique la politique de protection des données de l'établissement.</li>
+<li><b>Le délégué à la protection des données (DPD) académique</b> conseille l'établissement et peut être contacté pour toute question.</li>
+<li><b>L'auteur du portail</b> (Vincent TOCQUIN) édite et met gratuitement à disposition le logiciel. Il ne collecte, ne reçoit, n'héberge et ne consulte aucune donnée d'élève : il n'intervient pas dans le traitement.</li>
 </ul>
-<h2 id="s2">2. Données stockées localement</h2>
-<div class="sp"><table><tr><th>Type de données</th><th>Usage</th></tr>
-<tr><td>Nom, prénom, date de naissance, classe, régime</td><td>Liste globale, affichage par classe, base commune des applications</td></tr>
-<tr><td>Données ajoutées par les applications du catalogue</td><td>Colonnes propres à chaque application (présences, résultats, observations…), rangées par identifiant d’application</td></tr></table></div>
-<h2 id="s3">3. Où elles restent</h2>
+
+<h2 id="s2">2. Avant d'utiliser Mes Apps EPS avec vos élèves</h2>
+<div class="encart w"><ol>
+<li><b>Informer le chef d'établissement</b> de l'utilisation de Mes Apps EPS et des applications que vous utilisez, pour qu'il autorise leur usage et <b>les inscrive au registre des traitements</b> de l'établissement (dans plusieurs académies, ce registre est tenu dans une application dédiée, par exemple RADIO). Un usage non déclaré engage la responsabilité de l'établissement.</li>
+<li><b>Informer les élèves et leurs responsables légaux</b> : finalité, données, durée de conservation, droits. Un <a href="#s14">modèle de mention</a> est proposé ci-dessous ; il peut être intégré au projet EPS, au règlement intérieur, à la charte numérique ou communiqué par l'ENT.</li>
+<li><b>Limiter les données</b> à ce qui est nécessaire (<a href="#s4">section 4</a>) et <b>ne jamais saisir de données de santé</b> (<a href="#s5">section 5</a>).</li>
+<li><b>Sécuriser l'appareil</b> et les fichiers exportés (<a href="#s9">section 9</a>) et <b>effacer les données</b> en fin d'année (<a href="#s7">section 7</a>).</li>
+</ol></div>
+
+<h2 id="s3">3. Finalités et base légale</h2>
 <ul>
-<li><b>Navigateur</b> — sur Windows, iPhone/iPad, Android et Mac, les données sont stockées dans l’IndexedDB du navigateur (ou de l’application installée), propre à cet appareil et à ce navigateur. Les applications du catalogue hébergées sous le même domaine partagent cette base ; aucune autre origine n’y a accès.</li>
-<li><b>Fichiers d’export</b> — le fichier Mes_Apps_EPS_AAAA-MM-JJ.xlsx que vous exportez et enregistrez où vous le souhaitez (cloud personnel, clé USB, messagerie…) relève de votre responsabilité une fois exporté.</li>
+<li><b>Finalités</b> : organiser l'enseignement de l'EPS (appel, groupes, rotations), observer, suivre et évaluer les apprentissages des élèves, et gérer l'association sportive.</li>
+<li><b>Base légale</b> : l'exécution d'une mission d'intérêt public, à laquelle se rattache l'enseignement (article 6.1.e du RGPD). Le consentement des familles n'est donc pas la base du traitement, mais leur <b>information</b> est obligatoire (articles 13 et 14 du RGPD).</li>
+<li>Les données ne sont utilisées à aucune autre fin : ni commerciale, ni publicitaire, ni statistique hors de la classe.</li>
 </ul>
-<h2 id="s4">4. Supprimer ou exporter</h2>
+
+<h2 id="s4">4. Données traitées</h2>
+<div class="sp"><table><tr><th>Données</th><th>Origine</th><th>Usage</th></tr>
+<tr><td>Nom, prénom, classe</td><td>Export Pronote ou fichier compilé</td><td>Liste commune aux applications, affichage par classe</td></tr>
+<tr><td>Date de naissance</td><td>Export Pronote</td><td>Distinguer deux élèves homonymes ; facultative</td></tr>
+<tr><td>Régime (externe, demi-pensionnaire, interne)</td><td>Export Pronote</td><td>Organisation de certaines activités ; facultatif : ne l'exportez pas de Pronote si vous n'en avez pas l'usage</td></tr>
+<tr><td>Saisies des applications</td><td>Applications du catalogue et de la communauté</td><td>Résultats, présences, observations, auto-évaluations… rangés par application et datés</td></tr>
+<tr><td>Fichiers .xlsx remis par les élèves</td><td>Portail « Applis EPS Élèves »</td><td>Rattachés à l'élève par nom, prénom et classe ; les lignes sans correspondance sont ignorées</td></tr>
+</table></div>
+<p>Les autres colonnes d'un export Pronote (e-mail, sexe, responsables, options…) sont ignorées à l'import. Pour aller plus loin, exportez de Pronote <b>uniquement</b> le nom, le prénom et la classe.</p>
+
+<h2 id="s5">5. Données de santé et observations</h2>
 <ul>
-<li><b>Exporter</b> — onglet « Élèves », bouton « Exporter le fichier compilé (.xlsx) » : feuille « Élèves » et une feuille par application.</li>
-<li><b>Supprimer</b> — onglet « Élèves », bouton « Effacer toutes les données » (définitif). Vider les données du site dans le navigateur supprime aussi tout ; les données ne peuvent alors être récupérées que par l’import d’un nouvel export Pronote ou d’une sauvegarde.</li>
+<li>Les informations médicales sont des <b>données sensibles</b> soumises à un régime particulier. <b>Ne saisissez jamais</b> dans Mes Apps EPS ou dans une application un diagnostic, une pathologie, un traitement, un handicap nommé ou le contenu d'un certificat médical. Les certificats d'inaptitude suivent le circuit prévu par l'établissement (vie scolaire, infirmerie, médecin scolaire).</li>
+<li>Pour adapter l'enseignement, notez seulement l'<b>aménagement pédagogique</b> (par exemple « course aménagée », « barème adapté », « rôle d'arbitre »), sans son motif.</li>
+<li>Les commentaires et observations doivent rester <b>factuels, pédagogiques et respectueux</b> : l'élève et sa famille peuvent demander à y accéder.</li>
+<li>Photos et vidéos d'élèves : aucune application du portail ne doit les enregistrer. Une vidéo utilisée pour l'analyse de pratique est visionnée en différé puis effacée, sans conservation ni envoi (droit à l'image).</li>
 </ul>
-<h2 id="s5">5. Conservation des données</h2>
-<p>Les données restent sur votre appareil tant que vous ne les supprimez pas, tant que le navigateur les conserve ou tant que l’application installée n’est pas désinstallée. Il est recommandé d’effacer la liste à la fin de l’année scolaire ou lorsqu’elle n’est plus utile.</p>
-<h2 id="s6">6. Applications du catalogue</h2>
-<p>Mes Apps EPS fournit des liens vers d’autres applications. Chacune est décrite par sa propre politique de confidentialité. Les applications hébergées sur le même domaine peuvent lire et compléter la liste commune sur votre appareil, sans transmission à un serveur. Aucun élément du catalogue ne reçoit de donnée d’élève par le simple affichage du portail.</p>
-<p><b>Applis pour les élèves</b> — le portail séparé « Applis EPS Élèves » ne reçoit jamais votre liste d’élèves : chaque élève saisit lui-même son nom, son prénom et sa classe (ou ne s’identifie pas), et ses données restent sur son appareil, dans une base distincte de la vôtre. Un fichier .xlsx remis par un élève, une fois importé dans Mes Apps EPS, est rattaché à l’élève par son nom, son prénom et sa classe ; les lignes sans correspondance sont ignorées. Ne laissez pas Mes Apps EPS (qui contient votre liste) accessible sur un appareil utilisé par les élèves.</p>
-<h2 id="s7">7. Hébergement</h2>
-<p>Les fichiers de l’application (code, images, catalogue) sont servis par GitHub Pages. Comme pour tout site web, l’hébergeur peut traiter l’adresse IP des appareils qui téléchargent ces fichiers (journaux techniques). Aucune donnée d’élève n’est présente sur le dépôt ni transmise à l’hébergeur. Une fois installée, l’application fonctionne hors ligne.</p>
-<h2 id="s8">8. Vos responsabilités et bonnes pratiques</h2>
-<p>En tant qu’enseignant utilisateur, vous restez responsable du traitement des données de vos élèves :</p>
+
+<h2 id="s6">6. Où sont les données</h2>
 <ul>
-<li>Informer votre établissement et vos élèves selon le cadre de votre établissement.</li>
-<li>Ne pas laisser l’appareil de cours accessible sans verrouillage.</li>
-<li>Exporter régulièrement une sauvegarde et sécuriser les fichiers exportés.</li>
-<li>Ne pas publier ou stocker les fichiers de sauvegarde sur un cloud ne respectant pas les règles RGPD.</li>
+<li><b>Dans le navigateur de l'appareil</b> (base IndexedDB), sur Windows, Mac, Android, iPhone ou iPad. Les applications hébergées sous la même adresse que le portail (<code>vinztoc.github.io</code>) partagent cette base sur cet appareil ; aucun autre site n'y a accès. Rien n'est envoyé sur Internet.</li>
+<li><b>Dans les fichiers exportés</b> (<code>Mes_Apps_EPS_AAAA-MM-JJ.xlsx</code>) : une fois enregistrés, ils relèvent de votre responsabilité. Conservez-les dans un espace institutionnel (ENT, espace de stockage académique ou <i>apps.education.fr</i>), pas dans un stockage personnel ni dans une messagerie personnelle.</li>
+<li><b>Sur iPhone/iPad</b>, une application ajoutée à l'écran d'accueil a son propre stockage, distinct de Safari.</li>
 </ul>
-<h2 id="s9">9. Contact</h2>
-<p>Responsable du projet et de la publication : Vincent TOCQUIN – « VinZ Neuron » (enseignant EPS). <a href="contact.html">Accéder au formulaire de contact</a>.</p>
-<p><a class="btnlink" href="index.html">Retour à l’application</a></p></article></main></body></html>
+
+<h2 id="s7">7. Durée de conservation</h2>
+<ul>
+<li>Les données sont conservées <b>au plus tard jusqu'à la fin de l'année scolaire</b>, ou jusqu'à la fin du cycle ou de l'examen pour lequel elles servent (évaluations certificatives), selon les règles de l'établissement.</li>
+<li>En fin d'année : exportez ce qui doit être conservé par l'établissement, puis utilisez <b>« Effacer toutes les données »</b> (onglet Élèves) sur chaque appareil, et supprimez les fichiers exportés qui ne sont plus utiles.</li>
+<li>Les données ne peuvent pas être effacées à distance : elles restent sur l'appareil tant que vous ne les supprimez pas (ou que le navigateur ou l'application n'est pas désinstallé).</li>
+</ul>
+
+<h2 id="s8">8. Hébergement et transferts</h2>
+<ul>
+<li>Les fichiers du portail (code, images, catalogues) sont hébergés par <b>GitHub Pages</b> (GitHub, Inc., filiale de Microsoft, États-Unis) : <a href="https://github.com/VinzToc/Mes_Apps_EPS" target="_blank" rel="noopener noreferrer">github.com/VinzToc/Mes_Apps_EPS</a>. <b>Aucune donnée d'élève</b> n'y est déposée ni transmise.</li>
+<li>Comme tout hébergeur, GitHub <b>enregistre l'adresse IP</b> des appareils qui téléchargent les pages, pour des raisons de sécurité. C'est le cas de l'appareil de l'enseignant, et de celui des élèves lorsqu'ils ouvrent le portail « Applis EPS Élèves ». GitHub indique encadrer les transferts vers les États-Unis par le cadre de protection des données UE–États-Unis et par des clauses contractuelles types : voir la <a href="https://docs.github.com/fr/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">déclaration de confidentialité de GitHub</a>.</li>
+<li>Une fois installé, le portail fonctionne hors ligne : il ne contacte GitHub que pour vérifier les mises à jour.</li>
+</ul>
+
+<h2 id="s9">9. Sécurité</h2>
+<ul>
+<li>Utilisez un appareil <b>protégé par un code</b>, verrouillé automatiquement, de préférence fourni par l'établissement, et une session qui vous est propre.</li>
+<li><b>Ne laissez jamais Mes Apps EPS (qui contient votre liste) sur un appareil utilisé par les élèves</b>.</li>
+<li>Gardez le système et le navigateur à jour ; n'installez pas d'extensions de navigateur inutiles.</li>
+<li>En cas de <b>perte ou de vol</b> d'un appareil ou d'un fichier exporté, prévenez <b>sans délai</b> le chef d'établissement : il s'agit d'une violation de données qu'il doit évaluer et, le cas échéant, notifier à la CNIL dans les 72 heures.</li>
+</ul>
+
+<h2 id="s10">10. Droits des élèves et des familles</h2>
+<ul>
+<li>Les élèves et leurs responsables légaux disposent d'un droit d'<b>accès</b>, de <b>rectification</b>, d'<b>effacement</b> (dans les limites de la mission d'intérêt public), de <b>limitation</b> et d'<b>opposition</b>.</li>
+<li>Ces droits s'exercent auprès du <b>chef d'établissement</b> (ou du DPD académique). L'enseignant peut y répondre directement dans l'outil : fiche de l'élève (consultation, bouton « ✏️ Modifier »), export .xlsx (copie des données), effacement.</li>
+<li>En cas de difficulté, une réclamation peut être adressée à la <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">CNIL</a>.</li>
+</ul>
+
+<h2 id="s11">11. Applis du catalogue et de la communauté</h2>
+<ul>
+<li><b>Applis pour le prof</b> : applications de l'auteur du portail, hébergées à la même adresse, qui lisent et complètent la liste sur votre appareil, sans transmission.</li>
+<li><b>Applis de la communauté</b> : applications créées par d'autres enseignants (le plus souvent avec FabrikApplis EPS). Le nom de leur auteur est indiqué ; chacune est éditée sous la responsabilité de son auteur. La plupart sont hébergées à une autre adresse (<code>autre-compte.github.io</code>) : elles n'ont alors <b>pas accès</b> à votre liste et échangent les données par fichier (« Charger la liste », export .xlsx). Leur présence dans le portail résulte d'une relecture par l'auteur du portail, pas d'une garantie : vérifiez la notice de chaque application, et <b>déclarez à votre chef d'établissement chaque application que vous utilisez</b> avec des données d'élèves.</li>
+<li>Les auteurs qui proposent une application acceptent que leur nom, l'application et la description du besoin soient publiés. La proposition passe par un ticket <b>public</b> sur GitHub : n'y indiquez aucune donnée d'élève. Un auteur peut demander le retrait de sa fiche via le formulaire de contact.</li>
+<li>L'affichage du portail ne transmet aucune donnée aux applications du catalogue.</li>
+</ul>
+
+<h2 id="s12">12. Applis pour les élèves</h2>
+<ul>
+<li>Le portail séparé « Applis EPS Élèves » ne reçoit jamais votre liste. Chaque élève saisit lui-même son nom, son prénom et sa classe, ou ne s'identifie pas ; ses données restent sur son appareil, dans une base distincte de la vôtre.</li>
+<li>Sur des <b>tablettes partagées</b>, les données d'un élève restent sur la tablette : faites récupérer les fichiers puis effacer les données en fin de séance ou de cycle.</li>
+<li>Expliquez aux élèves, avec des mots adaptés à leur âge, ce qui est enregistré et pourquoi.</li>
+</ul>
+
+<h2 id="s13">13. FabrikApplis EPS et intelligence artificielle</h2>
+<ul>
+<li>FabrikApplis EPS aide les enseignants à concevoir une application et à la faire coder par Claude (Anthropic). Les projets sont enregistrés dans le navigateur ; le jeton GitHub éventuel reste sur l'appareil et n'est envoyé qu'à GitHub.</li>
+<li>Le texte envoyé à Claude décrit un <b>besoin pédagogique</b> : <b>il ne doit contenir aucune donnée d'élève</b> (ni nom, ni résultat, ni fichier de classe). Les outils d'IA générative ne doivent pas recevoir de données personnelles d'élèves sans cadre validé par l'établissement.</li>
+<li>Les applications produites suivent les mêmes règles que le portail : stockage local, aucune donnée publiée sur GitHub (les fichiers .csv et .xlsx sont bloqués), pas de donnée de santé.</li>
+</ul>
+
+<h2 id="s14">14. Modèle d'information des élèves et des familles</h2>
+<p class="note">À adapter (nom de l'établissement, applications utilisées, durée) et à faire valider par le chef d'établissement.</p>
+<div class="modele" id="mod">Dans le cadre de l'enseignement de l'éducation physique et sportive, les professeurs d'EPS du [établissement] utilisent des outils numériques (portail « Mes Apps EPS » et applications associées : [liste]) pour organiser les séances, observer et suivre les apprentissages et évaluer les élèves.
+
+Données concernées : nom, prénom, classe, et les résultats et observations recueillis en cours d'EPS. Aucune donnée de santé n'est enregistrée.
+Ces données sont enregistrées uniquement sur les appareils des enseignants (sans serveur ni transmission à un tiers) et conservées au plus tard jusqu'à la fin de l'année scolaire [ou : du cycle / de l'examen].
+
+Ce traitement relève de la mission d'intérêt public de l'établissement (article 6.1.e du RGPD). Le responsable de traitement est le chef d'établissement.
+Vous pouvez exercer vos droits d'accès, de rectification, d'effacement, de limitation et d'opposition auprès du chef d'établissement ou du délégué à la protection des données de l'académie ([adresse du DPD]). Vous pouvez également adresser une réclamation à la CNIL (www.cnil.fr).</div>
+<p><button class="btnlink" type="button" id="cpm">📋 Copier le modèle</button> <span class="note" id="cpmo"></span></p>
+
+<h2 id="s15">15. Contact</h2>
+<p>Auteur et responsable de la publication du portail : Vincent TOCQUIN – « VinZ Neuron » (enseignant EPS). <a href="contact.html">Accéder au formulaire de contact</a>. Pour exercer vos droits sur des données d'élèves, adressez-vous à l'établissement concerné : l'auteur du portail n'a pas accès à ces données.</p>
+<p class="note">Références : RGPD (règlement UE 2016/679), articles 5, 6, 9, 13, 30, 32 à 34 ; loi Informatique et Libertés ; ressources du ministère de l'Éducation nationale et de la CNIL sur la protection des données des élèves.</p>
+<p><a class="btnlink" href="index.html">Retour à l'application</a></p></article></main>
+<script>document.getElementById('cpm').onclick=async()=>{const t=document.getElementById('mod').textContent,o=document.getElementById('cpmo');try{await navigator.clipboard.writeText(t);o.textContent='✅ Modèle copié'}catch(e){o.textContent='Sélectionnez le texte pour le copier'}}</script>
+</body></html>

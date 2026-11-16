@@ -49,9 +49,9 @@ Les deux portails sont publics sur GitHub Pages : « séparer » veut dire que l
 
 ---
 
-# Applis de la communauté (Fabrique EPS)
+# Applis de la communauté (FabrikApplis EPS)
 
-Les collègues créent leurs applis avec la **Fabrique EPS** (https://vinztoc.github.io/Fabrique_Applis_EPS/) et les publient sur **leur propre compte GitHub**. Elles apparaissent dans la rubrique « 🌍 Applis de la communauté » du portail et dans l'onglet 🌍 de la Fabrique.
+Les collègues créent leurs applis avec la **FabrikApplis EPS** (https://vinztoc.github.io/Fabrique_Applis_EPS/) et les publient sur **leur propre compte GitHub**. Elles apparaissent dans la rubrique « 🌍 Applis de la communauté » du portail et dans l'onglet 🌍 de la Fabrique.
 
 - Catalogue : `communaute.json` (tableau de fiches : `id, nom, desc, url, icon, emoji, couleur, categorie, cible, discipline, activite, niveau, besoin{pour, types, libelles, probleme, reussite, objectif}, auteur, etablissement, academie, depot, date, ticket`).
 - Proposition : à l'étape 5 de la Fabrique, « Proposer à la communauté » crée un **ticket** sur ce dépôt (titre `[Communauté] …`) contenant la fiche JSON.
