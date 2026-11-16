@@ -1,0 +1,58 @@
+# Ajout automatique d'une appli proposée depuis la Fabrique EPS dans « Applis de la communauté ».
+# Déclencheur : un responsable du dépôt ajoute l'étiquette « communaute-valide » à un ticket de proposition.
+# (Seuls les collaborateurs du dépôt peuvent poser une étiquette : la modération reste entre vos mains.)
+name: Communauté – ajout d'une appli validée
+on:
+  issues:
+    types: [labeled]
+permissions:
+  contents: write
+  issues: write
+  pages: write
+jobs:
+  ajouter:
+    if: github.event.label.name == 'communaute-valide'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue, num = issue.number;
+            const comment = body => github.rest.issues.createComment({ ...context.repo, issue_number: num, body });
+            const fail = async msg => { await comment('⚠️ Ajout impossible : ' + msg); core.setFailed(msg); };
+            const m = (issue.body || '').match(/```json\s*([\s\S]*?)```/);
+            if (!m) return fail('bloc JSON de la fiche introuvable dans le ticket.');
+            let e; try { e = JSON.parse(m[1]); } catch (x) { return fail('fiche JSON invalide (' + x.message + ').'); }
+            if (!/^https:\/\/[a-z0-9-]+\.github\.io\/[A-Za-z0-9._-]+\/?$/i.test(e.url || '')) return fail('adresse attendue de la forme https://identifiant.github.io/depot/');
+            if (!e.nom || !e.id) return fail('nom ou identifiant de l\'appli manquant.');
+            const txt = (v, n) => String(v ?? '').slice(0, n);
+            const b = e.besoin || {};
+            const fiche = {
+              id: txt(e.id, 40).replace(/[^a-z0-9_]/gi, ''), nom: txt(e.nom, 60), desc: txt(e.desc, 200), url: e.url,
+              icon: /^https:\/\//.test(e.icon || '') ? e.icon : '', emoji: txt(e.emoji, 8), couleur: txt(e.couleur, 20),
+              categorie: txt(e.categorie, 30), cible: e.cible === 'eleve' ? 'eleve' : 'prof',
+              discipline: txt(e.discipline, 40), activite: txt(e.activite, 60), niveau: txt(e.niveau, 40),
+              besoin: { pour: txt(b.pour, 10), types: (b.types || []).slice(0, 12).map(x => txt(x, 30)), libelles: (b.libelles || []).slice(0, 12).map(x => txt(x, 80)),
+                        probleme: txt(b.probleme, 800), reussite: txt(b.reussite, 500), objectif: txt(b.objectif, 300) },
+              auteur: txt(e.auteur, 60), etablissement: txt(e.etablissement, 120), academie: txt(e.academie, 40),
+              depot: /^https:\/\/github\.com\//.test(e.depot || '') ? e.depot : '',
+              date: /^\d{4}-\d{2}-\d{2}$/.test(e.date || '') ? e.date : new Date().toISOString().slice(0, 10),
+              ticket: num
+            };
+            const path = 'communaute.json';
+            let list = [], sha;
+            try {
+              const f = await github.rest.repos.getContent({ ...context.repo, path });
+              sha = f.data.sha; list = JSON.parse(Buffer.from(f.data.content, 'base64').toString('utf8'));
+            } catch (x) { if (x.status !== 404) throw x; }
+            const i = list.findIndex(a => a.url.replace(/\/$/, '') === fiche.url.replace(/\/$/, ''));
+            if (i >= 0) list[i] = fiche; else list.push(fiche);
+            await github.rest.repos.createOrUpdateFileContents({
+              ...context.repo, path, sha,
+              message: `Communauté : ${i >= 0 ? 'mise à jour' : 'ajout'} de « ${fiche.nom} » (#${num})`,
+              content: Buffer.from(JSON.stringify(list, null, 1) + '\n').toString('base64')
+            });
+            // Relance la publication GitHub Pages (un commit fait par une action ne la déclenche pas toujours)
+            try { await github.request('POST /repos/{owner}/{repo}/pages/builds', context.repo); } catch (x) { core.info('Relance Pages : ' + x.message); }
+            await comment(`✅ « ${fiche.nom} » est ${i >= 0 ? 'mise à jour' : 'ajoutée'} dans les Applis de la communauté (visible dans le portail d'ici 1 à 2 minutes). Merci pour le partage !`);
+            await github.rest.issues.update({ ...context.repo, issue_number: num, state: 'closed', state_reason: 'completed' });

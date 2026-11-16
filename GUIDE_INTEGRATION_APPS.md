@@ -46,3 +46,15 @@ Principe : toutes les applications hébergées sous `https://vinztoc.github.io/�
 
 ## Limite de la séparation
 Les deux portails sont publics sur GitHub Pages : « séparer » veut dire que le portail élèves ne propose ni ne cite aucune application prof, pas que celles-ci sont protégées par un mot de passe. Les données d'élèves, elles, ne sont jamais publiées (stockage local uniquement).
+
+---
+
+# Applis de la communauté (Fabrique EPS)
+
+Les collègues créent leurs applis avec la **Fabrique EPS** (https://vinztoc.github.io/Fabrique_Applis_EPS/) et les publient sur **leur propre compte GitHub**. Elles apparaissent dans la rubrique « 🌍 Applis de la communauté » du portail et dans l'onglet 🌍 de la Fabrique.
+
+- Catalogue : `communaute.json` (tableau de fiches : `id, nom, desc, url, icon, emoji, couleur, categorie, cible, discipline, activite, niveau, besoin{pour, types, libelles, probleme, reussite, objectif}, auteur, etablissement, academie, depot, date, ticket`).
+- Proposition : à l'étape 5 de la Fabrique, « Proposer à la communauté » crée un **ticket** sur ce dépôt (titre `[Communauté] …`) contenant la fiche JSON.
+- Validation : tester l'appli, puis ajouter l'étiquette **`communaute-valide`** au ticket. L'action `.github/workflows/communaute.yml` ajoute (ou met à jour, même URL) la fiche dans `communaute.json`, relance GitHub Pages, commente et ferme le ticket. Refuser = fermer le ticket sans étiquette.
+- Une appli hébergée sur un autre domaine (`xxx.github.io`) ne partage pas la base locale du portail : elle échange par fichiers (bouton « Charger la liste » avec le fichier compilé, export .xlsx à importer dans le portail).
+- Une seule fois : créer l'étiquette `communaute-valide` (onglet Issues → Labels → New label) et vérifier que les Issues sont activées (Settings → General → Features → Issues).
