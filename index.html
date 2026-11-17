@@ -89,6 +89,7 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
 .imp .drop .btn{padding:7px 12px;font-size:.8rem;border-radius:10px;flex:none}
 .imp #msg,.imp #msgE{font-size:.9rem;margin-top:8px}.imp #msg:not(:empty),.imp #msgE:not(:empty){padding:8px 11px}
 @media(max-width:620px){.imp{grid-template-columns:1fr;gap:10px}}
+.vzh{display:flex;align-items:center;gap:10px}.vzh img{border-radius:10px;filter:drop-shadow(0 2px 4px #0006)}
 .tile .au{font-size:.68rem;line-height:1.2;font-style:normal;font-weight:700;color:var(--c3);opacity:.9;margin-top:-4px}
 #info{font-size:.95rem!important;margin-top:10px!important}
 </style></head><body>
@@ -106,14 +107,14 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
   <p class="rgpd">🔒 RGPD : les données restent <b>uniquement sur cet appareil</b> (stockage local du navigateur). Aucun serveur, aucun suivi, aucun cookie. Chaque import fusionne et met à jour la liste globale. ⚖️ Utilisé avec des élèves, l'outil doit être <b>déclaré au chef d'établissement</b> (registre des traitements) et les familles <b>informées</b> : voir la <a href="confidentialite.html#s2" style="color:var(--c1)">politique de confidentialité</a> (modèle d'information inclus).</p>
  </div>
  <div class="card"><h2>🧰 Applis pour le prof</h2><div class="grid" id="apps"></div></div>
- <div class="card"><h2>🌍 Applis de la communauté</h2>
-  <p class="rgpd" style="margin:0 0 12px;opacity:.85">Des outils créés par des collègues avec FabrikApplis EPS, chacun né d'un besoin d'élèves ou d'enseignant. Touchez une appli pour lire le besoin qui l'a fait naître.</p>
-  <div class="row" style="margin:0 0 14px"><select id="cmA"><option value="">Toutes les APSA</option></select><select id="cmC"><option value="">Prof et élèves</option><option value="prof">🧑‍🏫 Applis prof</option><option value="eleve">🎒 Applis élèves</option></select><a class="btn" id="cmF" target="_blank" rel="noopener" style="text-decoration:none">🛠️ Créer la mienne</a></div>
-  <div class="grid" id="appsC"></div></div>
  <div class="card"><h2>🎒 Applis pour les élèves</h2>
   <p class="rgpd" style="margin:0 0 12px;opacity:.85">Portail séparé « Applis EPS Élèves » : il ne contient que les applications des élèves, jamais celles du professeur. Les élèves s'y identifient eux-mêmes (nom, prénom, classe) sans accès à votre liste.</p>
   <div class="row" style="margin:0 0 14px"><button class="btn b" id="qrb">▦ QR code</button><button class="btn" id="lkb">🔗 Copier le lien</button><a class="btn r" id="opb" target="_blank" rel="noopener" style="text-decoration:none">↗ Ouvrir le portail</a></div>
   <div class="grid" id="appsE"></div></div>
+ <div class="card" id="vzc"><h2 class="vzh"><img src="icons/icon-192-VinZApps.png" alt="" width="40" height="40">VinZ Apps</h2>
+  <p class="rgpd" style="margin:0 0 12px;opacity:.85">Mes autres applications, hors enseignement. Elles n'utilisent pas la liste des élèves.</p>
+  <div class="row" style="margin:0 0 14px"><a class="btn b" id="vzo" target="_blank" rel="noopener" style="text-decoration:none">↗ Ouvrir VinZ Apps</a></div>
+  <div class="grid" id="appsV"></div></div>
 </section>
 <section id="t2" class="tab"><div class="card"><h2>👥 Élèves</h2>
  <div class="row" style="margin:0 0 12px"><select id="fc"><option value="">Toutes les classes</option></select><input id="fs" placeholder="🔍 Rechercher…"><span id="cnt" style="font-weight:700"></span></div>
@@ -224,11 +225,17 @@ $('#clr').onclick=async()=>{if(!L.length&&!confirm('Aucun élève n\'est enregis
 const tc=a=>/^#[0-9a-f]{3,8}\s*,\s*#[0-9a-f]{3,8}$/i.test(a.couleur||'')?` style="--t1:${a.couleur.split(',')[0].trim()};--t2:${a.couleur.split(',')[1].trim()}"`:'';
 function tile(a,base){const ic=a.icon?new URL(a.icon,base).href:'';
  return `<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=76 height=76 onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b>${a.desc?`<small>${esc(a.desc)}</small>`:''}${a.auteur?`<i class="au">par ${esc(a.auteur)}</i>`:''}</a>`}
-function catalogue(sel,url,fn){const base=new URL(url,location.href).href;
- fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(A=>{if(fn)fn(A);$(sel).innerHTML=A.map(a=>tile(a,base)).join('')||'<p class="rgpd">Aucune application pour le moment.</p>'})
-  .catch(e=>{$(sel).innerHTML='<p style="font-weight:700;color:#ff8f8f">⚠ Catalogue indisponible (apps.json absent, mal formé ou portail non joignable hors connexion).</p>'})}
-catalogue('#apps','apps.json',A=>{APPS=A.concat(APPS.filter(x=>!A.some(y=>y.id===x.id)));draw()});
-catalogue('#appsE',PORTAIL_ELEVES+'apps.json',A=>{APPS=APPS.concat(A.filter(x=>!APPS.some(y=>y.id===x.id)));draw()});
+let CM;const communaute=()=>CM||(CM=fetch('communaute.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(L=>(Array.isArray(L)?L:[]).filter(a=>a&&a.nom&&/^https:\/\//.test(a.url||'')).map(a=>({...a,_c:1}))).catch(()=>[]));
+function catalogue(sel,url,fn,cible,vide){const base=new URL(url,location.href).href;
+ Promise.all([fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),cible?communaute():[]]).then(([A,C])=>{
+  C=C.filter(a=>(a.cible==='eleve'?'eleve':'prof')===cible&&!A.some(x=>x.id===a.id||(x.url&&x.url.replace(/\/$/,'')===a.url.replace(/\/$/,''))));
+  const T=A.concat(C);T.sort((x,y)=>!x.url-!y.url);if(fn)fn(T);
+  $(sel).innerHTML=T.map(a=>tile(a,a._c?location.href:base)).join('')||`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`})
+  .catch(e=>{$(sel).innerHTML=vide?`<p class="rgpd">${vide}</p>`:'<p style="font-weight:700;color:#ff8f8f">⚠ Catalogue indisponible (apps.json absent, mal formé ou portail non joignable hors connexion).</p>'})}
+catalogue('#apps','apps.json',A=>{APPS=A.concat(APPS.filter(x=>!A.some(y=>y.id===x.id)));draw()},'prof');
+catalogue('#appsV',VINZAPPS+'apps.json',null,null,'Les applications de VinZ Apps arriveront bientôt ici.');
+$('#vzo').href=VINZAPPS;
+catalogue('#appsE',PORTAIL_ELEVES+'apps.json',A=>{APPS=APPS.concat(A.filter(x=>!APPS.some(y=>y.id===x.id)));draw()},'eleve');
 /* Partage du portail élèves : lien + QR code généré localement (aucun service externe) */
 $('#opb').href=PORTAIL_ELEVES;
 function qrCanvas(text,size){const q=qrcode(0,'M');q.addData(text);q.make();const n=q.getModuleCount(),m=4,px=Math.max(2,Math.floor(size/(n+2*m))),w=(n+2*m)*px,c=document.createElement('canvas');
@@ -245,4 +252,4 @@ $('#qx').onclick=()=>$('#qrm').hidden=true;$('#qrm').onclick=e=>{if(e.target.id=
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 refresh();
 </script>
-<script src="communaute.js"></script></body></html>
+</body></html>

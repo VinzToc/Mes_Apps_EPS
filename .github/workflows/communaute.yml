@@ -54,5 +54,5 @@ jobs:
             });
             // Relance la publication GitHub Pages (un commit fait par une action ne la déclenche pas toujours)
             try { await github.request('POST /repos/{owner}/{repo}/pages/builds', context.repo); } catch (x) { core.info('Relance Pages : ' + x.message); }
-            await comment(`✅ « ${fiche.nom} » est ${i >= 0 ? 'mise à jour' : 'ajoutée'} dans les Applis de la communauté (visible dans le portail d'ici 1 à 2 minutes). Merci pour le partage !`);
+            await comment(`✅ « ${fiche.nom} » est ${i >= 0 ? 'mise à jour' : 'ajoutée'} dans la zone « Applis pour ${fiche.cible === 'eleve' ? 'les élèves' : 'le prof'} » (visible dans le portail d'ici 1 à 2 minutes). Merci pour le partage !`);
             await github.rest.issues.update({ ...context.repo, issue_number: num, state: 'closed', state_reason: 'completed' });

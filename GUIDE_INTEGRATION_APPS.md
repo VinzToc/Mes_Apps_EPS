@@ -49,12 +49,16 @@ Les deux portails sont publics sur GitHub Pages : « séparer » veut dire que l
 
 ---
 
-# Applis de la communauté (FabrikApplis EPS)
+# Applis des collègues (FabrikApplis EPS)
 
-Les collègues créent leurs applis avec la **FabrikApplis EPS** (https://vinztoc.github.io/Fabrique_Applis_EPS/) et les publient sur **leur propre compte GitHub**. Elles apparaissent dans la rubrique « 🌍 Applis de la communauté » du portail et dans l'onglet 🌍 de la Fabrique.
+Les collègues créent leurs applis avec la **FabrikApplis EPS** (https://vinztoc.github.io/Fabrique_Applis_EPS/) et les publient sur **leur propre compte GitHub**. Elles apparaissent dans le portail, dans la zone « 🧰 Applis pour le prof » ou « 🎒 Applis pour les élèves » selon le champ `cible` de leur fiche, avec le nom de l'auteur.
 
 - Catalogue : `communaute.json` (tableau de fiches : `id, nom, desc, url, icon, emoji, couleur, categorie, cible, discipline, activite, niveau, besoin{pour, types, libelles, probleme, reussite, objectif}, auteur, etablissement, academie, depot, date, ticket`).
 - Proposition : à l'étape 5 de la Fabrique, « Proposer à la communauté » crée un **ticket** sur ce dépôt (titre `[Communauté] …`) contenant la fiche JSON.
 - Validation : tester l'appli, puis ajouter l'étiquette **`communaute-valide`** au ticket. L'action `.github/workflows/communaute.yml` ajoute (ou met à jour, même URL) la fiche dans `communaute.json`, relance GitHub Pages, commente et ferme le ticket. Refuser = fermer le ticket sans étiquette.
 - Une appli hébergée sur un autre domaine (`xxx.github.io`) ne partage pas la base locale du portail : elle échange par fichiers (bouton « Charger la liste » avec le fichier compilé, export .xlsx à importer dans le portail).
 - Une seule fois : créer l'étiquette `communaute-valide` (onglet Issues → Labels → New label) et vérifier que les Issues sont activées (Settings → General → Features → Issues).
+
+# VinZ Apps (applis hors enseignement)
+
+La zone « VinZ Apps » (bas de l'accueil) lit `apps.json` à la racine du dépôt `VinzApps` (adresse `VINZAPPS` dans `config.js`). Une fiche par appli : `id, nom, desc, url, icon, emoji, couleur`. Aucun lien avec la liste des élèves.
