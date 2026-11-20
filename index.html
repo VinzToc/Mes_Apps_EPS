@@ -92,6 +92,11 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
 .vzh{display:flex;align-items:center;gap:10px}.vzh img{border-radius:10px;filter:drop-shadow(0 2px 4px #0006)}
 .tile .au{font-size:.68rem;line-height:1.2;font-style:normal;font-weight:700;color:var(--c3);opacity:.9;margin-top:-4px}
 #info{font-size:.95rem!important;margin-top:10px!important}
+.tile.vedette{background:linear-gradient(160deg,rgba(255,196,60,.30),rgba(176,48,255,.28) 60%,rgba(47,155,255,.22));border:2px solid #ffc43c;box-shadow:0 8px 24px #0006,0 0 22px rgba(255,196,60,.35)}
+.tile.vedette::before{height:6px;background:linear-gradient(90deg,#ffc43c,#ff5e00,#b030ff)}
+.tile.vedette:hover{border-color:#ffe08a;box-shadow:0 12px 30px #0007,0 0 30px rgba(255,196,60,.55)}
+.tile.vedette small{color:#fff;opacity:.92}.tile.vedette .au{color:#ffe08a}
+.tile .badge{font-size:.66rem;font-weight:800;letter-spacing:.03em;padding:3px 9px;border-radius:999px;background:linear-gradient(135deg,#ffc43c,#ff7a00);color:#2a1300;margin-top:-2px}
 </style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Mes Apps EPS</h1><p>La boîte à outils numérique du prof d'EPS</p></div></header>
 <main>
@@ -224,12 +229,12 @@ $('#clr').onclick=async()=>{if(!L.length&&!confirm('Aucun élève n\'est enregis
  try{const n=L.length;await EPS.clear();$('#msg').textContent='';$('#msgE').innerHTML='';await refresh();toast('🗑 Données effacées : '+n+' élève(s) supprimé(s) de cet appareil.')}catch(e){toast('❌ Échec de l\'effacement : '+e.message)}};
 const tc=a=>/^#[0-9a-f]{3,8}\s*,\s*#[0-9a-f]{3,8}$/i.test(a.couleur||'')?` style="--t1:${a.couleur.split(',')[0].trim()};--t2:${a.couleur.split(',')[1].trim()}"`:'';
 function tile(a,base){const ic=a.icon?new URL(a.icon,base).href:'';
- return `<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=76 height=76 onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b>${a.desc?`<small>${esc(a.desc)}</small>`:''}${a.auteur?`<i class="au">par ${esc(a.auteur)}</i>`:''}</a>`}
+ return `<a class="tile ${a.url?'':'off'}${a.vedette?' vedette':''}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=76 height=76 onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span>${a.vedette?'<span class="badge">✨ Créez votre appli</span>':''}<b>${esc(a.nom)}</b>${a.desc?`<small>${esc(a.desc)}</small>`:''}${a.auteur?`<i class="au">par ${esc(a.auteur)}</i>`:''}</a>`}
 let CM;const communaute=()=>CM||(CM=fetch('communaute.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(L=>(Array.isArray(L)?L:[]).filter(a=>a&&a.nom&&/^https:\/\//.test(a.url||'')).map(a=>({...a,_c:1}))).catch(()=>[]));
 function catalogue(sel,url,fn,cible,vide){const base=new URL(url,location.href).href;
  Promise.all([fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),cible?communaute():[]]).then(([A,C])=>{
   C=C.filter(a=>(a.cible==='eleve'?'eleve':'prof')===cible&&!A.some(x=>x.id===a.id||(x.url&&x.url.replace(/\/$/,'')===a.url.replace(/\/$/,''))));
-  const T=A.concat(C);T.sort((x,y)=>!x.url-!y.url);if(fn)fn(T);
+  const T=A.concat(C);T.sort((x,y)=>(!x.url-!y.url)||(!x.vedette-!y.vedette));if(fn)fn(T);
   $(sel).innerHTML=T.map(a=>tile(a,a._c?location.href:base)).join('')||`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`})
   .catch(e=>{$(sel).innerHTML=vide?`<p class="rgpd">${vide}</p>`:'<p style="font-weight:700;color:#ff8f8f">⚠ Catalogue indisponible (apps.json absent, mal formé ou portail non joignable hors connexion).</p>'})}
 catalogue('#apps','apps.json',A=>{APPS=A.concat(APPS.filter(x=>!A.some(y=>y.id===x.id)));draw()},'prof');
