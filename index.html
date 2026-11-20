@@ -97,6 +97,9 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
 .tile.vedette:hover{border-color:#ffe08a;box-shadow:0 12px 30px #0007,0 0 30px rgba(255,196,60,.55)}
 .tile.vedette small{color:#fff;opacity:.92}.tile.vedette .au{color:#ffe08a}
 .tile .badge{font-size:.66rem;font-weight:800;letter-spacing:.03em;padding:3px 9px;border-radius:999px;background:linear-gradient(135deg,#ffc43c,#ff7a00);color:#2a1300;margin-top:-2px}
+.cats{display:grid;gap:18px}.cat h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--c3,#ffd27a)}
+.cat h3 span{font-size:.7rem;letter-spacing:0;padding:1px 8px;border-radius:999px;background:rgba(255,255,255,.12);color:var(--tx)}
+.cat h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bd,rgba(255,255,255,.2)),transparent)}
 </style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Mes Apps EPS</h1><p>La boîte à outils numérique du prof d'EPS</p></div></header>
 <main>
@@ -231,11 +234,23 @@ const tc=a=>/^#[0-9a-f]{3,8}\s*,\s*#[0-9a-f]{3,8}$/i.test(a.couleur||'')?` style
 function tile(a,base){const ic=a.icon?new URL(a.icon,base).href:'';
  return `<a class="tile ${a.url?'':'off'}${a.vedette?' vedette':''}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=76 height=76 onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span>${a.vedette?'<span class="badge">✨ Créez votre appli</span>':''}<b>${esc(a.nom)}</b>${a.desc?`<small>${esc(a.desc)}</small>`:''}${a.auteur?`<i class="au">par ${esc(a.auteur)}</i>`:''}</a>`}
 let CM;const communaute=()=>CM||(CM=fetch('communaute.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(L=>(Array.isArray(L)?L:[]).filter(a=>a&&a.nom&&/^https:\/\//.test(a.url||'')).map(a=>({...a,_c:1}))).catch(()=>[]));
+const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion']];
+const catKey=c=>{const k=(c||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();if(k==='tests'||k==='evaluations'||k==='evaluation')return'Evaluations';const f=CATS.find(([n])=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()===k);return f?f[0]:'Autres'};
+/* Tuiles regroupées par catégorie : appli « vedette » en tête, sections dans l'ordre de CATS, tuiles inactives à la fin */
+function sections(el,T,tf,vide){const on=T.filter(a=>a.url),off=T.filter(a=>!a.url),ved=on.filter(a=>a.vedette),reste=on.filter(a=>!a.vedette);
+ const G=new Map();reste.forEach(a=>{const k=catKey(a.categorie);if(!G.has(k))G.set(k,[]);G.get(k).push(a)});
+ const ordre=[...CATS.map(c=>c[0]),'Autres'].filter(k=>G.has(k)),lib=k=>(CATS.find(c=>c[0]===k)||[0,'🧩 Autres'])[1];
+ if(!T.length){el.className='grid';el.innerHTML=`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`;return}
+ if(ordre.length<2&&!ved.length){el.className='grid';el.innerHTML=T.map(tf).join('');return}
+ el.className='cats';
+ el.innerHTML=(ved.length?`<div class="grid">${ved.map(tf).join('')}</div>`:'')
+  +ordre.map(k=>`<section class="cat"><h3>${lib(k)}<span>${G.get(k).length}</span></h3><div class="grid">${G.get(k).map(tf).join('')}</div></section>`).join('')
+  +(off.length?`<div class="grid">${off.map(tf).join('')}</div>`:'')}
 function catalogue(sel,url,fn,cible,vide){const base=new URL(url,location.href).href;
  Promise.all([fetch(url).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}),cible?communaute():[]]).then(([A,C])=>{
   C=C.filter(a=>(a.cible==='eleve'?'eleve':'prof')===cible&&!A.some(x=>x.id===a.id||(x.url&&x.url.replace(/\/$/,'')===a.url.replace(/\/$/,''))));
-  const T=A.concat(C);T.sort((x,y)=>(!x.url-!y.url)||(!x.vedette-!y.vedette));if(fn)fn(T);
-  $(sel).innerHTML=T.map(a=>tile(a,a._c?location.href:base)).join('')||`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`})
+  const T=A.concat(C);if(fn)fn(T);
+  sections($(sel),T,a=>tile(a,a._c?location.href:base),vide)})
   .catch(e=>{$(sel).innerHTML=vide?`<p class="rgpd">${vide}</p>`:'<p style="font-weight:700;color:#ff8f8f">⚠ Catalogue indisponible (apps.json absent, mal formé ou portail non joignable hors connexion).</p>'})}
 catalogue('#apps','apps.json',A=>{APPS=A.concat(APPS.filter(x=>!A.some(y=>y.id===x.id)));draw()},'prof');
 catalogue('#appsV',VINZAPPS+'apps.json',null,null,'Les applications de VinZ Apps arriveront bientôt ici.');
