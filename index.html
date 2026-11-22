@@ -190,10 +190,10 @@ function draw(){const c=$('#fc').value,q=norm($('#fs').value);
  const tot=k=>r.reduce((s,e)=>s+N.get(e.id)[k],0),use=k=>r.filter(e=>N.get(e.id)[k]>0).length,mx=k=>Math.max(1,...r.map(e=>N.get(e.id)[k]));
  $('#sum').innerHTML=r.length&&keys.length?keys.map(k=>{const i=info(k),n=use(k);return `<div class="sm"><b>${esc(i.emoji||'🧩')} ${esc(i.nom)}</b><span>${n}/${r.length} élève(s) · ${tot(k)} saisie(s)</span><div class="bar"><i style="width:${Math.round(100*n/r.length)}%"></i></div></div>`}).join(''):'';
  $('#hint').textContent=keys.length?'Cliquez sur le nom d’un élève pour afficher la synthèse de ses saisies.':L.length?'Aucune saisie d’application pour le moment : importez le fichier compilé (.xlsx) sur l’accueil.':'';
- $('#th').innerHTML='<tr><th>NOM Prénom</th><th>Classe</th>'+keys.map(k=>{const i=info(k);return `<th class="n" title="${esc(i.nom)}">${esc(i.emoji||'🧩')}<br><small>${esc(i.nom)}</small></th>`}).join('')+'</tr>';
- let h='',g=null;const span=2+keys.length;
+ $('#th').innerHTML='<tr><th>NOM Prénom</th><th>Classe</th><th title="Sexe (colonne « Sexe » de Pronote)">Sexe</th>'+keys.map(k=>{const i=info(k);return `<th class="n" title="${esc(i.nom)}">${esc(i.emoji||'🧩')}<br><small>${esc(i.nom)}</small></th>`}).join('')+'</tr>';
+ let h='',g=null;const span=3+keys.length;
  for(const e of r){if(!c&&e.classe!==g){g=e.classe;h+=`<tr class="grp"><td colspan="${span}">${esc(g||'Sans classe')} · ${r.filter(x=>x.classe===g).length} élève(s)</td></tr>`}
-  h+=`<tr><td><button class="nm" data-id="${esc(e.id)}"><b>${esc(e.nom.toUpperCase())}</b> ${esc(e.prenom)}</button></td><td>${esc(e.classe)}</td>`
+  h+=`<tr><td><button class="nm" data-id="${esc(e.id)}"><b>${esc(e.nom.toUpperCase())}</b> ${esc(e.prenom)}</button></td><td>${esc(e.classe)}</td><td>${e.sexe==='F'?'♀ F':e.sexe==='M'?'♂ M':'–'}</td>`
    +keys.map(k=>{const n=N.get(e.id)[k];return n?`<td class="n" style="background:rgba(31,139,255,${(.12+.5*n/mx(k)).toFixed(2)})">${n}</td>`:'<td class="n z">–</td>'}).join('')+'</tr>'}
  $('#tb').innerHTML=h||`<tr><td colspan="${span}">Aucun résultat</td></tr>`}
 function fiche(id){const e=L.find(x=>x.id===id);if(!e)return;
@@ -210,6 +210,7 @@ function editer(e){const f=$('#fef');if(f.innerHTML){f.innerHTML='';return}
  f.innerHTML=`<form class="card" id="fe" style="margin:12px 0"><datalist id="dcl">${cl.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
  <label>Nom<input name="nom" value="${esc(e.nom)}" required></label><label>Prénom<input name="prenom" value="${esc(e.prenom)}" required></label>
  <label>Classe<input name="classe" list="dcl" value="${esc(e.classe)}" placeholder="ex : 2GATL1"></label>
+ <label>Sexe<select name="sexe"><option value="">Non renseigné</option><option value="F" ${e.sexe==='F'?'selected':''}>Féminin</option><option value="M" ${e.sexe==='M'?'selected':''}>Masculin</option></select></label>
  <label>Né(e) le (facultatif)<input name="naissance" value="${esc(e.naissance)}" placeholder="JJ/MM/AAAA"></label><label>Régime (facultatif)<input name="regime" value="${esc(e.regime)}"></label>
  <div class="err" id="fee"></div><div class="row"><button class="btn b">💾 Enregistrer</button><button type="button" class="btn r" id="fea">Annuler</button></div></form>`;
  $('#fea').onclick=()=>f.innerHTML='';

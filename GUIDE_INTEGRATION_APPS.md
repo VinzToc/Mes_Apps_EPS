@@ -1,10 +1,10 @@
-# Guide d'intégration d'une application à Mes Apps EPS (eps-core.js v2.2)
+# Guide d'intégration d'une application à Mes Apps EPS (eps-core.js v2.4)
 
 Principe : toutes les applications hébergées sous `https://vinztoc.github.io/…` partagent la **même base locale** (IndexedDB « MesAppsEPS »), car le stockage du navigateur est lié au domaine, pas au dépôt. Une application enregistre donc ses données **directement** dans Mes Apps EPS, sans passer par un fichier. Le fichier .xlsx sert de sauvegarde et de transfert entre appareils.
 
 ## À faire dans chaque application
 
-1. **Ajouter `eps-core.js` (v2.1)** à la racine du dépôt de l'application, le charger avant son propre script (`<script src="eps-core.js"></script>`) et l'ajouter à la liste de fichiers de son `sw.js` (usage hors ligne).
+1. **Ajouter `eps-core.js` (v2.4)** à la racine du dépôt de l'application, le charger avant son propre script (`<script src="eps-core.js"></script>`) et l'ajouter à la liste de fichiers de son `sw.js` (usage hors ligne).
 2. **Choisir un identifiant d'application** stable et sans espace, par exemple `orienrun`. Il doit être identique dans le code et dans `apps.json` (champ `id`).
 3. **Lire les élèves** : `const eleves = await EPS.all();` (champs `id, nom, prenom, naissance, classe, regime`). Garder l'`id` de l'élève pour l'enregistrement. Si la liste est vide (appareil sans base), proposer un bouton « Charger la liste » : `await EPS.importFile(fichier)` accepte le .xlsx ou le .csv de Mes Apps EPS.
 4. **Enregistrer** (au moment de valider une saisie, et via un bouton « 💾 Enregistrer dans Mes Apps EPS » avec message d'état) :
@@ -63,3 +63,7 @@ Les collègues créent leurs applis avec la **FabrikApplis EPS** (https://vinzto
 
 - En bas de l'accueil, l'espace « Créez votre appli ici ! » ouvre la FabrikApplis EPS (adresse `FABRIQUE` dans `config.js`, logo `icons/icon-192-Fabrique.png`). Elle n'est plus une tuile de `apps.json`.
 - Sous cet espace, un bouton « D'autres applications sur le portail VinZ Apps » ouvre le portail VinZ Apps (adresse `VINZAPPS` dans `config.js`, logo `icons/icon-192-VinZApps.png`). Les applis hors enseignement y sont déposées, pas dans ce portail.
+
+
+## Sexe des élèves (eps-core.js v2.4)
+Le portail lit la colonne « Sexe » (Masculin / Féminin) du CSV Pronote et la range en `sexe` (`'F'` ou `'M'`) sur la fiche élève. `EPS.getExt(appId)` renvoie ce champ `sexe` pour chaque élève (à utiliser pour les barèmes filles/garçons). `EPS.normSex(valeur)` normalise une valeur libre. La feuille « Élèves » de l'export XLSX contient une colonne « Sexe ». Un réimport sans colonne Sexe ne vide pas un sexe déjà connu.
