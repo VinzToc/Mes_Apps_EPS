@@ -59,6 +59,7 @@ Les collègues créent leurs applis avec la **FabrikApplis EPS** (https://vinzto
 - Une appli hébergée sur un autre domaine (`xxx.github.io`) ne partage pas la base locale du portail : elle échange par fichiers (bouton « Charger la liste » avec le fichier compilé, export .xlsx à importer dans le portail).
 - Une seule fois : créer l'étiquette `communaute-valide` (onglet Issues → Labels → New label) et vérifier que les Issues sont activées (Settings → General → Features → Issues).
 
-# VinZ Apps (applis hors enseignement)
+# Fabrique et VinZ Apps (accueil)
 
-La zone « VinZ Apps » (bas de l'accueil) lit `apps.json` à la racine du dépôt `VinzApps` (adresse `VINZAPPS` dans `config.js`). Une fiche par appli : `id, nom, desc, url, icon, emoji, couleur`. Aucun lien avec la liste des élèves.
+- En bas de l'accueil, l'espace « Créez votre appli ici ! » ouvre la FabrikApplis EPS (adresse `FABRIQUE` dans `config.js`, logo `icons/icon-192-Fabrique.png`). Elle n'est plus une tuile de `apps.json`.
+- Sous cet espace, un bouton « D'autres applications sur le portail VinZ Apps » ouvre le portail VinZ Apps (adresse `VINZAPPS` dans `config.js`, logo `icons/icon-192-VinZApps.png`). Les applis hors enseignement y sont déposées, pas dans ce portail.
