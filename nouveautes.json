@@ -1,0 +1,52 @@
+[
+ {
+  "v": "1.19.0",
+  "date": "2026-11-23",
+  "items": [
+   "Cette fenêtre « Nouveautés » s'affiche désormais automatiquement à chaque mise à jour du portail.",
+   "En-tête modernisé : titre en casse mixte et logo cerclé d'un anneau dégradé.",
+   "Nouvelles applis au catalogue : SuiviProf EPS et CompEval.",
+   "Noms officiels harmonisés : LancerPerf, StepCarnet, BallStar."
+  ]
+ },
+ {
+  "v": "1.18.0",
+  "date": "2026-11-20",
+  "items": [
+   "La colonne Sexe de Pronote (Masculin / Féminin) est lue à l'import, affichée et modifiable dans l'onglet Élèves.",
+   "Le sexe est inclus dans les exports XLSX et CSV."
+  ]
+ },
+ {
+  "v": "1.17.0",
+  "date": "2026-11-22",
+  "items": [
+   "Nouveau QR code d'accès au portail Applis EPS Élèves.",
+   "Nouvel espace « Créez votre appli ici ! » vers la FabrikApplis EPS, en bas de l'accueil.",
+   "Bouton « D'autres applications sur le portail VinZ Apps »."
+  ]
+ },
+ {
+  "v": "1.16.0",
+  "date": "2026-11-18",
+  "items": [
+   "Les applis sont classées par catégorie (outils, performances, évaluations, statistiques, gestion…), présentées côte à côte."
+  ]
+ },
+ {
+  "v": "1.12.0",
+  "date": "2026-11-17",
+  "items": [
+   "Les applis proposées par des collègues apparaissent directement dans « Applis pour le prof » ou « Applis pour les élèves », avec le nom de l'auteur.",
+   "Politique de confidentialité mise à jour."
+  ]
+ },
+ {
+  "v": "1.9.0",
+  "date": "2026-11-14",
+  "items": [
+   "Bouton « Effacer toutes les données » en rouge, avec confirmation et notification.",
+   "Tuiles agrandies avec leur descriptif ; installation utilisable hors ligne."
+  ]
+ }
+]
