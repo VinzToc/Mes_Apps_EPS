@@ -5,6 +5,7 @@
      - mode « lignes »   : champ spécial  lignes:[{col:val,...},...]  → une ligne par enregistrement (ex. un test)
    v2.1 : EPS.addLigne(appId,eleveId,ligne) ajoute un enregistrement daté sans doublon ; EPS.exportXLSX({ids,apps}) exporte un sous-ensemble ;
           EPS.downloadXLSX(octets,nomFichier) déclenche le téléchargement.
+   v2.5 : EPS.supprimerEleves(ids) retire des élèves de la base (classe, groupe ou sélection).
    v2.5 : groupes d'enseignement (1res/Tles) : EPS.analyserCSV(file) liste les classes d'un CSV ; importFile(file,{groupe:'Nom du groupe'}) garde tous les élèves ensemble sous ce nom (classe=nom du groupe, groupe:true, origine=classe de rattachement Pronote) ; colonnes « Classe d'origine » et « Groupe d'enseignement » dans les exports.
    v2.4 : le sexe est lu dans la colonne « Sexe » de l'export Pronote (Masculin/Féminin) et rangé en « sexe » ('F' ou 'M') sur la fiche élève ; EPS.getExt() le renvoie ; exportXLSX/exportCSV l'écrivent dans la colonne « Sexe » de la feuille « Élèves » ; EPS.normSex(v) normalise une valeur.
    v2.3+ : modifierEleve(id,{nom,prenom,classe,naissance,regime}) ; un réimport ne vide plus une classe/un régime déjà renseigné.
@@ -209,6 +210,8 @@ const EPS={parseCSV,splitName,normSex,
  /* Télécharge un classeur produit par exportXLSX */
  downloadXLSX(bytes,name){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bytes],{type:XLSX_MIME}));a.download=name||'Mes_Apps_EPS.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)},
  async meta(){return tx('meta','readonly',o=>o.get('lastImport'))},
+ /* Supprime des élèves (fiche + toutes leurs données d'applications). Retourne le nombre supprimé. */
+ async supprimerEleves(ids){const set=new Set(ids||[]);const d=await open();let n=0;await new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),st=t.objectStore('eleves');set.forEach(id=>{st.delete(id);n++});t.oncomplete=ok;t.onerror=()=>ko(t.error)});return n},
  async clear(){await tx('eleves','readwrite',o=>o.clear());await tx('meta','readwrite',o=>o.clear())},
 
  /* Export XLSX : feuille « Élèves » + une feuille par application (+ feuille masquée « _meta »). Retourne un Uint8Array. */

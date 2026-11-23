@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.22.0",
+  "date": "2026-11-23",
+  "items": [
+   "Onglet Élèves : on peut désormais supprimer des élèves d'une classe ou d'un groupe — un par un (bouton « Supprimer » de la fiche), par sélection (cases à cocher) ou toute une classe / un groupe d'un coup.",
+   "Une confirmation est demandée : les saisies des applications de l'élève sont effacées avec lui sur cet appareil."
+  ]
+ },
+ {
   "v": "1.21.0",
   "date": "2026-11-23",
   "items": [
