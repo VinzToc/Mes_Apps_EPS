@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.20.0",
+  "date": "2026-11-23",
+  "items": [
+   "Onglet Élèves : bouton « Ajouter un élève » pour saisir à la main un élève dans une classe (nom, prénom, classe, sexe…), utile quand il manque dans l'export Pronote.",
+   "Les saisies de plusieurs élèves à la suite sont possibles : la classe reste pré-remplie."
+  ]
+ },
+ {
   "v": "1.19.0",
   "date": "2026-11-23",
   "items": [

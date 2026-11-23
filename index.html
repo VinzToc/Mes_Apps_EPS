@@ -139,7 +139,8 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
  <a class="vzb" id="vzo" target="_blank" rel="noopener"><img src="icons/icon-192-VinZApps.png" alt="" width="48" height="48"><span>D'autres applications sur le portail <b>VinZ Apps</b></span><i>↗</i></a>
 </section>
 <section id="t2" class="tab"><div class="card"><h2>👥 Élèves</h2>
- <div class="row" style="margin:0 0 12px"><select id="fc"><option value="">Toutes les classes</option></select><input id="fs" placeholder="🔍 Rechercher…"><span id="cnt" style="font-weight:700"></span></div>
+ <div class="row" style="margin:0 0 12px"><select id="fc"><option value="">Toutes les classes</option></select><input id="fs" placeholder="🔍 Rechercher…"><span id="cnt" style="font-weight:700"></span><button class="btn b" id="addb">➕ Ajouter un élève</button></div>
+ <div id="adf"></div>
  <div id="sum" class="sum"></div>
  <div class="wrap"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
  <p class="rgpd" id="hint"></p>
@@ -224,6 +225,27 @@ function editer(e){const f=$('#fef');if(f.innerHTML){f.innerHTML='';return}
  $('#fea').onclick=()=>f.innerHTML='';
  $('#fe').onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target));
   try{const n=await EPS.modifierEleve(e.id,d);await refresh();fiche(n.id)}catch(x){$('#fee').textContent=x.message}}}
+/* Ajout manuel d'un élève (classe pré-remplie avec le filtre de classe en cours) */
+function ajouter(){const f=$('#adf');if(f.innerHTML){f.innerHTML='';return}
+ const cl=[...new Set(L.map(x=>x.classe))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+ f.innerHTML=`<form class="card" id="ad" style="margin:0 0 14px"><h3 style="margin:0 0 8px">➕ Nouvel élève</h3><datalist id="dca">${cl.map(c=>`<option value="${esc(c)}">`).join('')}</datalist>
+ <label>Nom<input name="nom" required autocomplete="off"></label><label>Prénom<input name="prenom" required autocomplete="off"></label>
+ <label>Classe<input name="classe" list="dca" value="${esc($('#fc').value)}" placeholder="ex : 2GATL1" required></label>
+ <label>Sexe<select name="sexe"><option value="">Non renseigné</option><option value="F">Féminin</option><option value="M">Masculin</option></select></label>
+ <label>Né(e) le (facultatif)<input name="naissance" placeholder="JJ/MM/AAAA"></label><label>Régime (facultatif)<input name="regime"></label>
+ <p class="rgpd" style="margin:6px 0">Si cet élève figure aussi dans un prochain import Pronote, renseignez sa date de naissance pour éviter un doublon.</p>
+ <div class="err" id="ade"></div><div class="row"><button class="btn b">💾 Ajouter</button><button type="button" class="btn r" id="ada">Fermer</button></div></form>`;
+ $('#ada').onclick=()=>f.innerHTML='';$('#ad').nom.focus();
+ $('#ad').onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(ev.target)),er=$('#ade');er.textContent='';
+  d.nom=d.nom.trim();d.prenom=d.prenom.trim();d.classe=d.classe.trim();
+  if(!d.nom||!d.prenom||!d.classe){er.textContent='Le nom, le prénom et la classe sont obligatoires.';return}
+  const nn=norm(d.nom),np=norm(d.prenom),nb=norm(d.naissance||'');
+  if(L.some(x=>norm(x.nom)===nn&&norm(x.prenom)===np&&norm(x.naissance||'')===nb)){er.textContent='Cet élève est déjà dans la liste (même nom, prénom et date de naissance).';return}
+  const proche=L.find(x=>norm(x.nom)===nn&&norm(x.prenom)===np);
+  if(proche&&!confirm(`Un élève nommé ${proche.nom.toUpperCase()} ${proche.prenom} existe déjà (classe ${proche.classe||'?'}).\n\nAjouter quand même un second élève portant ce nom ?`))return;
+  try{const n=await EPS.putEleve(d);await refresh();toast('✅ '+n.nom.toUpperCase()+' '+n.prenom+' ajouté(e) en '+n.classe);
+   $('#fc').value=n.classe;draw();const c=$('#ad');if(c){c.nom.value='';c.prenom.value='';c.naissance.value='';c.regime.value='';c.sexe.value='';c.nom.focus()}}catch(x){er.textContent=x.message}}}
+$('#addb').onclick=ajouter;
 $('#tb').onclick=e=>{const t=e.target.closest('[data-id]');t&&fiche(t.dataset.id)};
 $('#fx').onclick=()=>$('#fiche').hidden=true;$('#fiche').onclick=e=>{if(e.target.id==='fiche')$('#fiche').hidden=true};
 document.onkeydown=e=>{if(e.key==='Escape'){$('#fiche').hidden=true;$('#qrm').hidden=true}};
