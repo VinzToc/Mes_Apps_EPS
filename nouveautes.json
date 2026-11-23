@@ -1,5 +1,14 @@
 [
  {
+  "v": "1.21.0",
+  "date": "2026-11-23",
+  "items": [
+   "Groupes d'enseignement (1res et Tles, choix de menus) : importez le CSV Pronote du groupe tel quel, le portail propose de le garder ensemble sous le nom du groupe au lieu de le redécouper par classe.",
+   "Les groupes sont repérés par 👥 dans le filtre des classes ; la classe d'origine de chaque élève est conservée sur sa fiche et dans les exports.",
+   "Les CSV de classes complètes s'importent comme avant."
+  ]
+ },
+ {
   "v": "1.20.0",
   "date": "2026-11-23",
   "items": [
