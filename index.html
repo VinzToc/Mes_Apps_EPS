@@ -138,7 +138,7 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
  <div class="card" id="bkc"><h2>💾 Sauvegarde complète</h2>
   <p class="rgpd" style="margin-top:0">Un seul fichier <b>.json</b> regroupe la liste des élèves, toutes les saisies des applications <b>et les carnets / grilles</b> (SuiviProf, CompEval…) de cet appareil. Pour changer d'appareil ou après un effacement du navigateur : « Restaurer » remet tout en place d'un seul geste.</p>
   <div class="row"><button class="btn b" id="bks">⬇ Sauvegarder tout</button><label class="btn r" style="cursor:pointer">⬆ Restaurer une sauvegarde<input id="fbk" type="file" accept=".json,application/json" hidden></label></div>
-  <div id="bkm" class="bkm"></div><div id="stp" class="rgpd"></div></div>
+  <div id="aup" class="rgpd" style="margin-top:12px"></div><div id="bkm" class="bkm"></div><div id="stp" class="rgpd"></div></div>
  <div class="card"><h2>🧰 Applis pour le prof</h2><div class="grid" id="apps"></div></div>
  <div class="card"><h2>🎒 Applis pour les élèves</h2>
   <p class="rgpd" style="margin:0 0 12px;opacity:.85">Portail séparé « Applis EPS Élèves » : il ne contient que les applications des élèves, jamais celles du professeur. Les élèves s'y identifient eux-mêmes (nom, prénom, classe) sans accès à votre liste.</p>
@@ -349,13 +349,18 @@ $('#qrd').onclick=()=>{const im=$('#qrc img');if(im&&im.complete&&im.naturalWidt
 $('#qx').onclick=()=>$('#qrm').hidden=true;$('#qrm').onclick=e=>{if(e.target.id==='qrm')$('#qrm').hidden=true};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 /* ───── Sauvegarde complète (élèves + données de toutes les applications du même domaine) ───── */
-const BK_KEY='EPS_DERNIERE_SAUVEGARDE',BK_EXC=/^(EPS_NV_|EPS_VERSION_VUE|EPS_ELEVES_VERSION_VUE|EPS_DERNIERE_SAUVEGARDE)|derniere_sauvegarde/i;
+const BK_KEY='EPS_DERNIERE_SAUVEGARDE',BK_EXC=/^(EPS_NV_|EPS_VERSION_VUE|EPS_ELEVES_VERSION_VUE|EPS_DERNIERE_SAUVEGARDE|EPS_BK_FP)|derniere_sauvegarde/i;
 const bkKeys=()=>{const k=[];try{for(let i=0;i<localStorage.length;i++){const n=localStorage.key(i);if(n&&!BK_EXC.test(n))k.push(n)}}catch(e){}return k};
-function bkBanner(){const b=$('#bkb');if(!b)return;const has=L.length||bkKeys().length;let t=+localStorage.getItem(BK_KEY)||0,a=t?Math.floor((Date.now()-t)/864e5):null;
- b.hidden=!(has&&(a===null||a>=7));if(!b.hidden)$('#bkt').textContent=a===null?'💾 Aucune sauvegarde complète n’a encore été faite sur cet appareil.':'💾 Dernière sauvegarde complète il y a '+a+' jours.'}
-async function bkSauver(){const m=$('#bkm');try{const ls={};bkKeys().forEach(k=>{ls[k]=localStorage.getItem(k)});const o={format:'MesAppsEPS-sauvegarde-complete',v:1,date:new Date().toISOString(),portail:(typeof APP_VERSION!=='undefined'?APP_VERSION:''),eleves:await EPS.all(),meta:await EPS.meta(),stockage:ls};
+async function bkBanner(){const b=$('#bkb');if(!b)return;const has=L.length||bkKeys().length;let t=+localStorage.getItem(BK_KEY)||0,a=t?Math.floor((Date.now()-t)/864e5):null,chg=false;
+ try{if(has&&a!==null&&a>=1)chg=(await bkEmpreinte())!==localStorage.getItem('EPS_BK_FP')}catch(e){}
+ const dossier=AUTO.actif&&AUTO.ok;b.hidden=!(has&&!dossier&&(a===null||a>=7||(chg&&a>=1)));
+ if(!b.hidden)$('#bkt').textContent=a===null?'💾 Aucune sauvegarde complète n’a encore été faite sur cet appareil.':chg?'💾 Des données ont changé depuis votre dernière sauvegarde complète (il y a '+a+' jour'+(a>1?'s':'')+').':'💾 Dernière sauvegarde complète il y a '+a+' jours.'}
+async function bkObjet(){const ls={};bkKeys().forEach(k=>{ls[k]=localStorage.getItem(k)});return{format:'MesAppsEPS-sauvegarde-complete',v:1,date:new Date().toISOString(),portail:(typeof APP_VERSION!=='undefined'?APP_VERSION:''),eleves:await EPS.all(),meta:await EPS.meta(),stockage:ls}}
+/* empreinte des données (pour savoir si elles ont changé depuis la dernière sauvegarde) */
+async function bkEmpreinte(){const o=await bkObjet();const t=JSON.stringify([o.eleves,o.stockage]);let h=5381;for(let i=0;i<t.length;i++)h=((h<<5)+h+t.charCodeAt(i))|0;return t.length+':'+h}
+async function bkSauver(){const m=$('#bkm');try{const o=await bkObjet(),ls=o.stockage;
  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='Mes_Apps_EPS_sauvegarde_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
- try{localStorage.setItem(BK_KEY,Date.now())}catch(e){}bkBanner();m.style.color='#6ff0a0';m.textContent=`✅ Sauvegarde lancée : ${o.eleves.length} élève(s) et ${Object.keys(ls).length} jeu(x) de données d’applications (carnets, grilles…).`;toast('✅ Sauvegarde complète téléchargée')}catch(x){m.style.color='#ff8f8f';m.textContent='❌ '+x.message}}
+ try{localStorage.setItem(BK_KEY,Date.now());localStorage.setItem('EPS_BK_FP',await bkEmpreinte())}catch(e){}bkBanner();m.style.color='#6ff0a0';m.textContent=`✅ Sauvegarde lancée : ${o.eleves.length} élève(s) et ${Object.keys(ls).length} jeu(x) de données d’applications (carnets, grilles…).`;toast('✅ Sauvegarde complète téléchargée')}catch(x){m.style.color='#ff8f8f';m.textContent='❌ '+x.message}}
 async function bkRestaurer(f){const m=$('#bkm');try{const o=JSON.parse(await f.text());if(!o||o.format!=='MesAppsEPS-sauvegarde-complete'||!Array.isArray(o.eleves))throw new Error('Ce fichier n’est pas une sauvegarde complète de Mes Apps EPS.');
  const nk=Object.keys(o.stockage||{}).length;if(!confirm(`Restaurer la sauvegarde du ${new Date(o.date).toLocaleString('fr-FR')} ?\n\n${o.eleves.length} élève(s) et ${nk} jeu(x) de données d’applications.\nLes données actuelles de cet appareil seront REMPLACÉES.`))return;
  await EPS.restaurerEleves(o.eleves,o.meta);for(const k in o.stockage||{}){if(!BK_EXC.test(k))try{localStorage.setItem(k,o.stockage[k])}catch(e){}}
@@ -364,9 +369,26 @@ async function bkStock(){const p=$('#stp');if(!p)return;try{const ok=navigator.s
  if(ok===null){p.textContent='';return}
  p.innerHTML=ok?'🛡 <b>Stockage protégé</b> : le navigateur n’effacera pas automatiquement vos données.':'⚠ <b>Stockage non protégé</b> : le navigateur peut effacer les données s’il manque de place ou après une longue inactivité. <button class="btn r" id="stb" style="padding:4px 10px;font-size:.78rem">🛡 Protéger</button>';
  const b=$('#stb');if(b)b.onclick=async()=>{try{await navigator.storage.persist()}catch(e){}bkStock();if(!(await navigator.storage.persisted()))toast('Le navigateur n’a pas accordé la protection : installez l’application (écran d’accueil) et sauvegardez régulièrement.')}}catch(e){}}
+/* ───── Sauvegarde automatique dans un dossier (ordinateur : Chrome / Edge). Le fichier reste sur le disque même si le navigateur efface ses données. ───── */
+const AUTO={dispo:!!window.showDirectoryPicker,actif:false,ok:false,dir:null,dernier:0};
+const cfg=(m,f)=>new Promise((ok,ko)=>{const r=indexedDB.open('MesAppsEPS_cfg',1);r.onupgradeneeded=()=>r.result.createObjectStore('k');r.onerror=()=>ko(r.error);r.onsuccess=()=>{const t=r.result.transaction('k',m),st=t.objectStore('k'),q=f(st);t.oncomplete=()=>ok(q&&q.result);t.onerror=()=>ko(t.error)}});
+async function autoEcrire(dir,force){const fp=await bkEmpreinte();if(!force&&fp===localStorage.getItem('EPS_BK_FP'))return false;const o=await bkObjet(),txt=JSON.stringify(o),jour=new Date().toISOString().slice(0,10);
+ for(const nom of['Mes_Apps_EPS_sauvegarde_auto.json','Mes_Apps_EPS_sauvegarde_'+jour+'.json']){const fh=await dir.getFileHandle(nom,{create:true}),w=await fh.createWritable();await w.write(txt);await w.close()}
+ try{const vieux=[];for await(const [n] of dir.entries())if(/^Mes_Apps_EPS_sauvegarde_\d{4}-\d\d-\d\d\.json$/.test(n))vieux.push(n);vieux.sort().slice(0,-7).forEach(n=>dir.removeEntry(n).catch(()=>{}))}catch(e){}
+ localStorage.setItem(BK_KEY,Date.now());localStorage.setItem('EPS_BK_FP',fp);AUTO.dernier=Date.now();return true}
+async function autoEtat(){const p=$('#aup');if(!p)return;if(!AUTO.dispo){p.innerHTML='📱 Sur tablette ou téléphone, le navigateur ne permet pas l’enregistrement automatique : utilisez « Sauvegarder tout » (un rappel s’affiche en haut de l’accueil).';return}
+ if(!AUTO.dir){p.innerHTML='<button class="btn b" id="aub">📁 Activer la sauvegarde automatique dans un dossier</button><div class="rgpd">Choisissez un dossier de votre ordinateur (ou de votre ENT synchronisé) : les données y sont enregistrées automatiquement dès qu’elles changent, avec les 7 dernières journées conservées.</div>';$('#aub').onclick=autoChoisir;return}
+ if(!AUTO.ok){p.innerHTML='📁 Sauvegarde automatique <b>en pause</b> (le navigateur demande de réautoriser le dossier « '+esc(AUTO.dir.name)+' »). <button class="btn b" id="aur" style="padding:4px 12px">Reprendre</button> <button class="btn r" id="aux" style="padding:4px 12px">Désactiver</button>';$('#aur').onclick=autoReprendre;$('#aux').onclick=autoStop;return}
+ p.innerHTML='📁 <b>Sauvegarde automatique active</b> dans « '+esc(AUTO.dir.name)+' »'+(AUTO.dernier?' · dernière écriture à '+new Date(AUTO.dernier).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}):'')+' <button class="btn r" id="aux" style="padding:4px 12px">Désactiver</button>';$('#aux').onclick=autoStop}
+async function autoChoisir(){try{const d=await window.showDirectoryPicker({id:'mesappseps',mode:'readwrite'});AUTO.dir=d;AUTO.actif=true;AUTO.ok=true;await cfg('readwrite',st=>st.put(d,'dossier'));await autoEcrire(d,true);toast('✅ Sauvegarde automatique activée');autoEtat();bkBanner()}catch(e){if(e.name!=='AbortError')toast('❌ '+e.message)}}
+async function autoReprendre(){try{const r=await AUTO.dir.requestPermission({mode:'readwrite'});AUTO.ok=r==='granted';if(AUTO.ok)await autoEcrire(AUTO.dir,true)}catch(e){toast('❌ '+e.message)}autoEtat();bkBanner()}
+async function autoStop(){AUTO.dir=null;AUTO.actif=AUTO.ok=false;try{await cfg('readwrite',st=>st.delete('dossier'))}catch(e){}autoEtat();bkBanner()}
+async function autoTick(force){if(!(AUTO.dir&&AUTO.ok))return;try{if(await autoEcrire(AUTO.dir,false)){autoEtat()}}catch(e){AUTO.ok=false;autoEtat();bkBanner()}}
+async function autoInit(){if(!AUTO.dispo){autoEtat();return}try{const d=await cfg('readonly',st=>st.get('dossier'));if(d){AUTO.dir=d;AUTO.actif=true;AUTO.ok=(await d.queryPermission({mode:'readwrite'}))==='granted'}}catch(e){}autoEtat();bkBanner();setInterval(autoTick,60000);document.addEventListener('visibilitychange',()=>{if(document.hidden)autoTick()})}
+window.EPS_AUTO={autoEcrire};
 $('#bks').onclick=bkSauver;$('#bkn').onclick=bkSauver;$('#fbk').onchange=e=>{const f=e.target.files[0];e.target.value='';f&&bkRestaurer(f)};
 try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(bkStock)}catch(e){}bkStock();
-refresh().then(bkBanner);
+refresh().then(()=>{bkBanner();autoInit()});
 /* Nouveautés : fenêtre affichée une fois après chaque mise à jour (nouveautes.json, plus récent en premier) */
 (()=>{const cmp=(a,b)=>{a=a.split('.').map(Number);b=b.split('.').map(Number);for(let i=0;i<3;i++){const d=(a[i]||0)-(b[i]||0);if(d)return d}return 0};
  const get=()=>{try{return localStorage.getItem('EPS_VERSION_VUE')}catch(e){return null}},set=v=>{try{localStorage.setItem('EPS_VERSION_VUE',v)}catch(e){}};

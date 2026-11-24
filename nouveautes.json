@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.25.0",
+  "date": "2026-11-24",
+  "items": [
+   "Sauvegarde automatique dans un dossier (ordinateur, Chrome ou Edge) : choisissez un dossier une fois, les données y sont enregistrées toutes seules dès qu'elles changent, avec les 7 dernières journées conservées. Le fichier reste sur votre disque même si le navigateur efface ses données.",
+   "Rappel plus réactif : la bannière de l'accueil apparaît dès le lendemain si des données ont changé depuis la dernière sauvegarde (tablette comprise)."
+  ]
+ },
+ {
   "v": "1.24.0",
   "date": "2026-11-24",
   "items": [
