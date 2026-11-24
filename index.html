@@ -118,13 +118,15 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
 .cat h3.vide{visibility:hidden}.cat.ved h3{color:#ffe08a;background:rgba(255,196,60,.14)}
 .cat .ct .tile{padding:14px 8px 12px;gap:6px}.cat .ct .tile .ic img{width:58px;height:58px}.cat .ct .tile b{font-size:.86rem}.cat .ct .tile small{font-size:.7rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.cat .ct .tile .au{font-size:.6rem}.cat .ct .tile .badge{font-size:.58rem;padding:2px 7px}
 @media(max-width:520px){.cat .ct .tile{width:92px;padding:12px 6px 10px}.cat .ct .tile small,.cat .ct .tile .au{display:none}.cat .ct .tile .ic img{width:48px;height:48px}.cat .ct .tile b{font-size:.74rem}.cat .ct .tile .badge{font-size:.5rem;white-space:nowrap;padding:2px 5px}.cat{padding:0 7px 0 8px}.cat .ct{gap:8px}}
+.bkb{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:rgba(255,176,32,.14);border:1.5px solid rgba(255,176,32,.55);border-radius:16px;padding:12px 16px;margin-bottom:16px;font-weight:700;font-size:1rem;color:#ffe08a}.bkb[hidden]{display:none}.bkm{margin-top:10px;font-weight:700;font-size:.95rem;min-height:1.2em}
 </style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Mes Apps <span>EPS</span></h1><p>La boîte à outils numériques du prof d'EPS</p></div></header>
 <main>
 <section id="t1" class="tab act">
+ <div id="bkb" class="bkb" hidden><span id="bkt"></span><button class="btn b" id="bkn">💾 Sauvegarder maintenant</button></div>
  <div class="card"><div class="imp">
   <div><h2>📥 Import des élèves</h2>
-  <label class="drop" id="drop"><span>CSV Pronote ou fichier compilé .xlsx</span><span class="btn b">📂 Choisir</span><input id="file" type="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
+  <label class="drop" id="drop"><span>CSV Pronote, fichier compilé .xlsx ou sauvegarde complète .json</span><span class="btn b">📂 Choisir</span><input id="file" type="file" accept=".csv,.xlsx,.json,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
   <label class="rgpd" style="display:flex;gap:8px;align-items:center;margin:6px 2px"><input type="checkbox" id="gcb"> Le prochain CSV est un <b>groupe d’enseignement</b> (1re / Tle) : les élèves gardent leur classe et rejoignent le groupe</label>
   <div id="msg"></div></div>
   <div><h2>📤 Fichiers des élèves</h2>
@@ -133,6 +135,10 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
   <div id="info"></div>
   <p class="rgpd">🔒 RGPD : les données restent <b>uniquement sur cet appareil</b> (stockage local du navigateur). Aucun serveur, aucun suivi, aucun cookie. Chaque import fusionne et met à jour la liste globale. ⚖️ Utilisé avec des élèves, l'outil doit être <b>déclaré au chef d'établissement</b> (registre des traitements) et les familles <b>informées</b> : voir la <a href="confidentialite.html#s2" style="color:var(--c1)">politique de confidentialité</a> (modèle d'information inclus).</p>
  </div>
+ <div class="card" id="bkc"><h2>💾 Sauvegarde complète</h2>
+  <p class="rgpd" style="margin-top:0">Un seul fichier <b>.json</b> regroupe la liste des élèves, toutes les saisies des applications <b>et les carnets / grilles</b> (SuiviProf, CompEval…) de cet appareil. Pour changer d'appareil ou après un effacement du navigateur : « Restaurer » remet tout en place d'un seul geste.</p>
+  <div class="row"><button class="btn b" id="bks">⬇ Sauvegarder tout</button><label class="btn r" style="cursor:pointer">⬆ Restaurer une sauvegarde<input id="fbk" type="file" accept=".json,application/json" hidden></label></div>
+  <div id="bkm" class="bkm"></div><div id="stp" class="rgpd"></div></div>
  <div class="card"><h2>🧰 Applis pour le prof</h2><div class="grid" id="apps"></div></div>
  <div class="card"><h2>🎒 Applis pour les élèves</h2>
   <p class="rgpd" style="margin:0 0 12px;opacity:.85">Portail séparé « Applis EPS Élèves » : il ne contient que les applications des élèves, jamais celles du professeur. Les élèves s'y identifient eux-mêmes (nom, prénom, classe) sans accès à votre liste.</p>
@@ -182,6 +188,7 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.query
 async function refresh(){L=(await EPS.all()).sort((a,b)=>(a.nom+a.prenom).localeCompare(b.nom+b.prenom,'fr'));
  const cl=[...new Set(L.map(e=>e.classe))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));const cur=$('#fc').value;
  $('#fc').innerHTML='<option value="">Toutes les classes</option>'+cl.map(c=>`<option value="${esc(c)}" ${c==cur?'selected':''}>${esc(c)}</option>`).join('')+(GR().length?'<optgroup label="👥 Groupes d’enseignement">'+GR().map(g=>`<option value="g:${esc(g)}" ${'g:'+g==cur?'selected':''}>👥 ${esc(g)}</option>`).join('')+'</optgroup>':'');
+ bkBanner();
  const m=await EPS.meta();$('#info').textContent=L.length?`${L.length} élèves`+(m&&m.v?` · dernier import : ${new Date(m.v).toLocaleString('fr-FR')} (${m.n})`:''):'Aucune liste importée pour le moment.';draw()}
 let APPS=[];
 const norm=EPS.norm,lab=t=>String(t).replace(/_/g,' '),val=v=>v&&typeof v==='object'?JSON.stringify(v):String(v);
@@ -281,7 +288,7 @@ function choixGroupe(a,force){return new Promise(res=>{const o=$('#grm');$('#grn
  $('#grs').hidden=force&&a.classes.length<2;const fin=v=>{o.hidden=true;res(v)};
  $('#gro').onclick=()=>{const v=$('#grn').value.trim();if(!v){$('#grn').focus();return}fin({groupe:v})};
  $('#grs').onclick=()=>fin({});$('#grc').onclick=()=>fin(null);$('#grx').onclick=()=>fin(null);o.hidden=false;$('#grn').focus()})}
-async function imp(f){const m=$('#msg');const gf=$('#gcb').checked;$('#gcb').checked=false;let opt={};
+async function imp(f){const m=$('#msg');if(/\.json$/i.test(f.name))return bkRestaurer(f);const gf=$('#gcb').checked;$('#gcb').checked=false;let opt={};
  if(!/\.xlsx$/i.test(f.name)){try{const a=await EPS.analyserCSV(f);if(a.classes.length>1||(gf&&a.n)){opt=await choixGroupe(a,gf);if(!opt){m.style.color='#ffd27f';m.textContent='Import annulé.';return}}}catch(e){}}
  try{const r=await EPS.importFile(f,opt);m.style.color='#6ff0a0';
  m.textContent=`✅ ${r.add} ajouté(s), ${r.upd} mis à jour.`+(r.apps?` ${r.apps} feuille(s) d'application intégrée(s).`:'')+(r.ign?` ${r.ign} ligne(s) ignorée(s) (élève absent de la liste).`:'')+(r.cols&&r.cols.length?` ⚠ Colonnes absentes : ${r.cols.join(', ')}`:'')+(opt.groupe?` Groupe « ${opt.groupe} » mis à jour : les élèves gardent leur classe.`:'')+(/\.xlsx$/i.test(f.name)?'':' La liste est disponible pour toutes vos applications.');refresh()}catch(e){m.style.color='#ff8f8f';m.textContent='❌ '+e.message}}
@@ -341,7 +348,25 @@ $('#qrs').onclick=()=>navigator.share({title:'Applis EPS Élèves',url:PORTAIL_E
 $('#qrd').onclick=()=>{const im=$('#qrc img');if(im&&im.complete&&im.naturalWidth){const a=document.createElement('a');a.href=im.src;a.download='QR_Applis_EPS_Eleves.png';document.body.appendChild(a);a.click();a.remove()}else if($('#qrc canvas'))$('#qrc canvas').toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='QR_Applis_EPS_Eleves.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)})};
 $('#qx').onclick=()=>$('#qrm').hidden=true;$('#qrm').onclick=e=>{if(e.target.id==='qrm')$('#qrm').hidden=true};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
-refresh();
+/* ───── Sauvegarde complète (élèves + données de toutes les applications du même domaine) ───── */
+const BK_KEY='EPS_DERNIERE_SAUVEGARDE',BK_EXC=/^(EPS_NV_|EPS_VERSION_VUE|EPS_ELEVES_VERSION_VUE|EPS_DERNIERE_SAUVEGARDE)|derniere_sauvegarde/i;
+const bkKeys=()=>{const k=[];try{for(let i=0;i<localStorage.length;i++){const n=localStorage.key(i);if(n&&!BK_EXC.test(n))k.push(n)}}catch(e){}return k};
+function bkBanner(){const b=$('#bkb');if(!b)return;const has=L.length||bkKeys().length;let t=+localStorage.getItem(BK_KEY)||0,a=t?Math.floor((Date.now()-t)/864e5):null;
+ b.hidden=!(has&&(a===null||a>=7));if(!b.hidden)$('#bkt').textContent=a===null?'💾 Aucune sauvegarde complète n’a encore été faite sur cet appareil.':'💾 Dernière sauvegarde complète il y a '+a+' jours.'}
+async function bkSauver(){const m=$('#bkm');try{const ls={};bkKeys().forEach(k=>{ls[k]=localStorage.getItem(k)});const o={format:'MesAppsEPS-sauvegarde-complete',v:1,date:new Date().toISOString(),portail:(typeof APP_VERSION!=='undefined'?APP_VERSION:''),eleves:await EPS.all(),meta:await EPS.meta(),stockage:ls};
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='Mes_Apps_EPS_sauvegarde_'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
+ try{localStorage.setItem(BK_KEY,Date.now())}catch(e){}bkBanner();m.style.color='#6ff0a0';m.textContent=`✅ Sauvegarde lancée : ${o.eleves.length} élève(s) et ${Object.keys(ls).length} jeu(x) de données d’applications (carnets, grilles…).`;toast('✅ Sauvegarde complète téléchargée')}catch(x){m.style.color='#ff8f8f';m.textContent='❌ '+x.message}}
+async function bkRestaurer(f){const m=$('#bkm');try{const o=JSON.parse(await f.text());if(!o||o.format!=='MesAppsEPS-sauvegarde-complete'||!Array.isArray(o.eleves))throw new Error('Ce fichier n’est pas une sauvegarde complète de Mes Apps EPS.');
+ const nk=Object.keys(o.stockage||{}).length;if(!confirm(`Restaurer la sauvegarde du ${new Date(o.date).toLocaleString('fr-FR')} ?\n\n${o.eleves.length} élève(s) et ${nk} jeu(x) de données d’applications.\nLes données actuelles de cet appareil seront REMPLACÉES.`))return;
+ await EPS.restaurerEleves(o.eleves,o.meta);for(const k in o.stockage||{}){if(!BK_EXC.test(k))try{localStorage.setItem(k,o.stockage[k])}catch(e){}}
+ await refresh();bkBanner();m.style.color='#6ff0a0';m.textContent=`✅ Sauvegarde restaurée : ${o.eleves.length} élève(s), ${nk} jeu(x) de données d’applications.`;toast('✅ Sauvegarde restaurée')}catch(x){m.style.color='#ff8f8f';m.textContent='❌ '+x.message}}
+async function bkStock(){const p=$('#stp');if(!p)return;try{const ok=navigator.storage&&navigator.storage.persisted?await navigator.storage.persisted():null;
+ if(ok===null){p.textContent='';return}
+ p.innerHTML=ok?'🛡 <b>Stockage protégé</b> : le navigateur n’effacera pas automatiquement vos données.':'⚠ <b>Stockage non protégé</b> : le navigateur peut effacer les données s’il manque de place ou après une longue inactivité. <button class="btn r" id="stb" style="padding:4px 10px;font-size:.78rem">🛡 Protéger</button>';
+ const b=$('#stb');if(b)b.onclick=async()=>{try{await navigator.storage.persist()}catch(e){}bkStock();if(!(await navigator.storage.persisted()))toast('Le navigateur n’a pas accordé la protection : installez l’application (écran d’accueil) et sauvegardez régulièrement.')}}catch(e){}}
+$('#bks').onclick=bkSauver;$('#bkn').onclick=bkSauver;$('#fbk').onchange=e=>{const f=e.target.files[0];e.target.value='';f&&bkRestaurer(f)};
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(bkStock)}catch(e){}bkStock();
+refresh().then(bkBanner);
 /* Nouveautés : fenêtre affichée une fois après chaque mise à jour (nouveautes.json, plus récent en premier) */
 (()=>{const cmp=(a,b)=>{a=a.split('.').map(Number);b=b.split('.').map(Number);for(let i=0;i<3;i++){const d=(a[i]||0)-(b[i]||0);if(d)return d}return 0};
  const get=()=>{try{return localStorage.getItem('EPS_VERSION_VUE')}catch(e){return null}},set=v=>{try{localStorage.setItem('EPS_VERSION_VUE',v)}catch(e){}};

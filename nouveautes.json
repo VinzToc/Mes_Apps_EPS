@@ -1,5 +1,15 @@
 [
  {
+  "v": "1.24.0",
+  "date": "2026-11-24",
+  "items": [
+   "Nouvelle « Sauvegarde complète » sur l'accueil : un seul fichier .json regroupe la liste des élèves, les saisies des applications et les carnets / grilles (SuiviProf, CompEval…). « Restaurer » remet tout en place d'un seul geste, sur cet appareil ou un autre (tablette, PC).",
+   "Un rappel s'affiche en haut de l'accueil si aucune sauvegarde complète n'a été faite depuis 7 jours.",
+   "Indicateur « Stockage protégé » avec bouton pour demander au navigateur de ne pas effacer automatiquement les données.",
+   "Correctif : la version 1.23.0 pouvait empêcher l'affichage de la version du portail ; c'est corrigé."
+  ]
+ },
+ {
   "v": "1.23.0",
   "date": "2026-11-24",
   "items": [

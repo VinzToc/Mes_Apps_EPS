@@ -219,6 +219,8 @@ const EPS={parseCSV,splitName,normSex,
  async supprimerEleves(ids){const set=new Set(ids||[]);const d=await open();let n=0;await new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),st=t.objectStore('eleves');set.forEach(id=>{st.delete(id);n++});t.oncomplete=ok;t.onerror=()=>ko(t.error)});return n},
  /* Retire des élèves d'un groupe (ils restent dans leur classe). Retourne le nombre d'élèves modifiés. */
  async retirerDuGroupe(ids,groupe){const set=new Set(ids||[]),L=(await EPS.all()).filter(e=>set.has(e.id)&&GL(e.groupes).includes(groupe));const d=await open();await new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),st=t.objectStore('eleves');L.forEach(e=>{e.groupes=GL(e.groupes).filter(g=>g!==groupe);if(!e.groupes.length)delete e.groupes;st.put(e)});t.oncomplete=ok;t.onerror=()=>ko(t.error)});return L.length},
+ /* Remplace toute la base par une liste d'élèves (restauration d'une sauvegarde complète). */
+ async restaurerEleves(list,meta){const d=await open();await new Promise((ok,ko)=>{const t=d.transaction(['eleves','meta'],'readwrite'),st=t.objectStore('eleves');st.clear();t.objectStore('meta').clear();(list||[]).forEach(e=>st.put(mig(Object.assign({},e))));if(meta&&meta.k)t.objectStore('meta').put(meta);t.oncomplete=ok;t.onerror=()=>ko(t.error)})},
  async clear(){await tx('eleves','readwrite',o=>o.clear());await tx('meta','readwrite',o=>o.clear())},
 
  /* Export XLSX : feuille « Élèves » + une feuille par application (+ feuille masquée « _meta »). Retourne un Uint8Array. */
