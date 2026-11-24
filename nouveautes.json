@@ -3,6 +3,16 @@
   "v": "1.23.0",
   "date": "2026-11-24",
   "items": [
+   "Groupes d'enseignement corrigés : un élève garde sa classe ET peut appartenir à un ou plusieurs groupes (section sportive, choix de menu…). Importer un CSV de groupe ajoute le groupe sans toucher à la classe.",
+   "Nouvelle colonne « Groupes » dans l'onglet Élèves, la fiche élève et les exports ; filtre par classe ou par groupe (👥).",
+   "On peut retirer un élève d'un groupe (fiche, sélection) ou supprimer un groupe entier sans supprimer les élèves.",
+   "Les groupes créés avec la version 1.21/1.22 sont convertis automatiquement : la classe d'origine est restaurée."
+  ]
+ },
+ {
+  "v": "1.23.0",
+  "date": "2026-11-24",
+  "items": [
    "Nouvelle application CoordoEPS (catégorie Gestion) pour le coordonnateur EPS : calendrier de l'équipe, emplois du temps, installations, services et programmation annuelle des cycles.",
    "La programmation se partage en un fichier : chaque collègue l'importe dans SuiviProf EPS (Organisation annuelle → « Importer la programmation d'équipe »)."
   ]
