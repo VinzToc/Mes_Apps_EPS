@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.23.0",
+  "date": "2026-11-24",
+  "items": [
+   "Nouvelle application CoordoEPS (catégorie Gestion) pour le coordonnateur EPS : calendrier de l'équipe, emplois du temps, installations, services et programmation annuelle des cycles.",
+   "La programmation se partage en un fichier : chaque collègue l'importe dans SuiviProf EPS (Organisation annuelle → « Importer la programmation d'équipe »)."
+  ]
+ },
+ {
   "v": "1.22.0",
   "date": "2026-11-23",
   "items": [
