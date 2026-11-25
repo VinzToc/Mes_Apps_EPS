@@ -38,6 +38,13 @@ function monter(){
   '</footer>';
  var a=document.getElementById('eps-bandeau-ancre');
  if(a)a.replaceWith(h);else document.body.appendChild(h);
+ /* barre fixe en bas de l'écran (onglets de l'appli) : on laisse la place pour que le bandeau reste lisible */
+ function place(){var H=0,vh=innerHeight,vw=innerWidth;
+  var els=document.body.querySelectorAll('nav,div,footer,header,section,ul');
+  for(var i=0;i<els.length;i++){var e=els[i];if(e===h||h.contains(e))continue;var cs=getComputedStyle(e);if(cs.position!=='fixed'||cs.display==='none'||cs.visibility==='hidden')continue;
+   var r=e.getBoundingClientRect();if(r.height>0&&r.height<=150&&r.width>=vw*.6&&r.bottom>=vh-2&&r.top>vh*.5)H=Math.max(H,r.height)}
+  h.style.paddingBottom=(8+H)+'px'}
+ setTimeout(place,700);addEventListener('resize',place);addEventListener('load',function(){setTimeout(place,300)});
 }
 if(document.body)monter();else document.addEventListener('DOMContentLoaded',monter);
 })();
