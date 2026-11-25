@@ -1,1 +1,1 @@
-const APP_VERSION="1.25.1"; // ← seul endroit à modifier pour changer la version
+const APP_VERSION="1.26.0"; // ← seul endroit à modifier pour changer la version

@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.26.0",
+  "date": "2026-11-25",
+  "items": [
+   "Bandeau du bas simplifié : logo à côté des liens, plus compact. Il est désormais présent en bas de chaque application (portail prof et élèves), pour que la politique de confidentialité reste accessible même si une application est installée en dehors du portail.",
+   "Politique de confidentialité mise à jour : groupes d'enseignement, sauvegardes (complète et automatique), nouvelles applications (CoordoEPS, TablMarkUNSS), données de sexe et de licence UNSS, services externes utilisés par quelques applications."
+  ]
+ },
+ {
   "v": "1.25.1",
   "date": "2026-11-25",
   "items": [
