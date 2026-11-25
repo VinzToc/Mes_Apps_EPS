@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.27.0",
+  "date": "2026-11-25",
+  "items": [
+   "Polices et bibliothèques hébergées avec les applications : BallStar, TablMarkUNSS et Gestion AS ne contactent plus Google Fonts ni jsDelivr. Plus rapide, utilisable hors ligne dès la première ouverture, et plus simple pour la protection des données.",
+   "Politique de confidentialité mise à jour en conséquence."
+  ]
+ },
+ {
   "v": "1.26.0",
   "date": "2026-11-25",
   "items": [

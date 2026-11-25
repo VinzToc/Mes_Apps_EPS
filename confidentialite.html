@@ -9,7 +9,7 @@
 <li>Mes Apps EPS est un portail gratuit qui regroupe des outils pour l'enseignant d'EPS. Il fonctionne <b>sans compte, sans serveur de données</b> et hors ligne.</li>
 <li>La liste d'élèves (export Pronote) et les saisies des applications sont enregistrées <b>uniquement sur l'appareil</b> de l'enseignant, dans la base locale du navigateur. L'auteur du portail ne reçoit et ne voit aucune donnée.</li>
 <li>Ce fonctionnement local réduit fortement les risques, mais <b>ne suffit pas à lui seul à respecter le RGPD</b> : dès qu'un enseignant enregistre des données d'élèves, il s'agit d'un traitement de données personnelles de mineurs, réalisé au nom de l'établissement. Il doit être <b>connu du chef d'établissement, inscrit au registre des traitements</b> et faire l'objet d'une <b>information des élèves et de leurs familles</b> (voir <a href="#s2">« Avant d'utiliser Mes Apps EPS »</a>).</li>
-<li>Aucun cookie, aucune mesure d'audience, aucune publicité, aucun outil de suivi. Les fichiers du portail sont hébergés sur GitHub Pages, qui enregistre l'adresse IP des appareils qui les téléchargent. <b>Quelques applications</b> chargent en plus une police, une bibliothèque ou le calendrier scolaire depuis un service externe (Google Fonts, jsDelivr, data.education.gouv.fr) : ce service voit alors l'adresse IP de l'appareil, mais <b>jamais de donnée d'élève</b> (<a href="#s8">section 8</a>).</li>
+<li>Aucun cookie, aucune mesure d'audience, aucune publicité, aucun outil de suivi. Les fichiers du portail sont hébergés sur GitHub Pages, qui enregistre l'adresse IP des appareils qui les téléchargent. Les polices et bibliothèques des applications sont <b>hébergées avec elles</b> (aucun appel à Google Fonts ni à un réseau de diffusion). Seule exception : le calendrier scolaire officiel, interrogé à votre demande (<a href="#s8">section 8</a>).</li>
 </ul>
 <p><em>Dernière mise à jour : 25 novembre 2026 (version 1.25 : groupes d'enseignement, sauvegardes complète et automatique, nouvelles applications CoordoEPS et TablMarkUNSS, services externes précisés, bandeau commun à toutes les applications).</em></p>
 <h2>Sommaire</h2>
@@ -80,12 +80,8 @@
 <ul>
 <li>Les fichiers du portail (code, images, catalogues) sont hébergés par <b>GitHub Pages</b> (GitHub, Inc., filiale de Microsoft, États-Unis) : <a href="https://github.com/VinzToc/Mes_Apps_EPS" target="_blank" rel="noopener noreferrer">github.com/VinzToc/Mes_Apps_EPS</a>. <b>Aucune donnée d'élève</b> n'y est déposée ni transmise.</li>
 <li>Comme tout hébergeur, GitHub <b>enregistre l'adresse IP</b> des appareils qui téléchargent les pages, pour des raisons de sécurité. C'est le cas de l'appareil de l'enseignant, et de celui des élèves lorsqu'ils ouvrent le portail « Applis EPS Élèves ». GitHub indique encadrer les transferts vers les États-Unis par le cadre de protection des données UE–États-Unis et par des clauses contractuelles types : voir la <a href="https://docs.github.com/fr/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">déclaration de confidentialité de GitHub</a>.</li>
-<li><b>Services externes</b> : trois cas particuliers, où l'appareil contacte un autre service en plus de GitHub. Ce service reçoit l'<b>adresse IP</b> de l'appareil et les informations techniques habituelles d'une requête web, <b>jamais un nom, une classe ou une saisie</b> :
-<ul>
-<li><b>Polices Google Fonts</b> (Google) : applications BallStar et TablMarkUNSS.</li>
-<li><b>Bibliothèques jsDelivr</b> (réseau de diffusion de code libre) : applications Gestion AS (génération des QR codes, lecture de QR codes, export PDF).</li>
-<li><b>Calendrier scolaire officiel</b> (<i>data.education.gouv.fr</i>, ministère de l'Éducation nationale) : SuiviProf EPS et CoordoEPS, uniquement lorsque vous demandez la mise à jour des vacances.</li>
-</ul></li>
+<li><b>Pas de service externe</b> : les polices d'écriture et les bibliothèques (QR codes, PDF) utilisées par les applications sont hébergées avec elles, sur GitHub Pages ; l'appareil ne contacte ni Google Fonts ni un réseau de diffusion de code.</li>
+<li><b>Une exception, à votre demande</b> : dans SuiviProf EPS et CoordoEPS, le bouton de mise à jour des vacances interroge le <b>calendrier scolaire officiel</b> (<i>data.education.gouv.fr</i>, ministère de l'Éducation nationale). Ce service reçoit l'<b>adresse IP</b> de l'appareil et la zone choisie, <b>jamais une donnée d'élève</b>. Le calendrier 2026-2027 est déjà intégré : cette requête est facultative.</li>
 <li><b>Liens du bandeau</b> : le site de l'auteur, Instagram et YouTube ne sont contactés que si vous cliquez dessus.</li>
 <li>Une fois installé, le portail fonctionne hors ligne : il ne contacte GitHub que pour vérifier les mises à jour.</li>
 </ul>
@@ -120,7 +116,6 @@
 <li>Le portail séparé « Applis EPS Élèves » ne reçoit jamais votre liste. Chaque élève saisit lui-même son nom, son prénom et sa classe, ou ne s'identifie pas ; ses données restent sur son appareil, dans une base distincte de la vôtre.</li>
 <li>Sur des <b>tablettes partagées</b>, les données d'un élève restent sur la tablette : faites récupérer les fichiers puis effacer les données en fin de séance ou de cycle.</li>
 <li>L'élève peut faire une <b>sauvegarde complète</b> (fichier .json) de ses données sur son appareil et la restaurer ; ce fichier contient son nom, sa classe et ses saisies : il doit être conservé comme le fichier .xlsx remis au professeur.</li>
-<li>Les applications BallStar et TablMarkUNSS chargent leurs polices depuis Google Fonts : Google voit alors l'adresse IP de l'appareil, jamais de donnée de l'élève (<a href="#s8">section 8</a>).</li>
 <li>Expliquez aux élèves, avec des mots adaptés à leur âge, ce qui est enregistré et pourquoi.</li>
 </ul>
 
