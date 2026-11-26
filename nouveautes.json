@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.28.0",
+  "date": "2026-11-26",
+  "items": [
+   "Nouvelle application au catalogue : StepSuivi Prof (suivi des séances de Step, pendant prof de StepCarnet).",
+   "Icônes d'installation détourées (fond transparent) pour TestAptPhys, Gestion AS (ENT et Pronote), PromptPeda, BallStar, ChronoMulti, TabaTimer, LancerPerf, StepCarnet et VMATest : à réinstaller pour voir la nouvelle icône."
+  ]
+ },
+ {
   "v": "1.27.0",
   "date": "2026-11-25",
   "items": [
