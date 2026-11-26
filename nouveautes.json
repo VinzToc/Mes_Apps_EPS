@@ -1,5 +1,14 @@
 [
  {
+  "v": "1.30.0",
+  "date": "2026-11-26",
+  "items": [
+   "Import CSV Pronote : si le fichier ne contient pas de classe (ou pas de colonne « Classe »), le nom du fichier est proposé comme classe, avec confirmation modifiable.",
+   "Le nom du fichier est aussi proposé quand il ressemble à une classe (ex. 3A.csv) alors que le fichier indique une autre classe.",
+   "Les fichiers Pronote sans colonne « Classe » sont désormais acceptés."
+  ]
+ },
+ {
   "v": "1.29.0",
   "date": "2026-11-26",
   "items": [

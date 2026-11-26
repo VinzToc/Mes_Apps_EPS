@@ -161,6 +161,10 @@ ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-rad
  <h3>👥 Classe ou groupe d’enseignement ?</h3><p id="grt" class="rgpd"></p><ul id="grl" style="margin:6px 0 10px;padding-left:18px"></ul>
  <label>Nom du groupe<input id="grn" placeholder="ex : 1re EPS option A" autocomplete="off"></label>
  <div class="row" style="justify-content:center;margin-top:12px"><button class="btn b" id="gro">👥 Oui, c’est un groupe</button><button class="btn" id="grs">Classes séparées</button><button class="btn r" id="grc">Annuler</button></div></div></div>
+<div id="clm" class="ov" hidden><div class="fc nvc"><button id="clx" aria-label="Fermer" class="xb">✕</button>
+ <h3>🏫 Classe des élèves de ce fichier ?</h3><p id="clt" class="rgpd"></p>
+ <label>Classe à utiliser<input id="cln" autocomplete="off"></label>
+ <div class="row" style="justify-content:center;margin-top:12px"><button class="btn b" id="clo">✔ Utiliser cette classe</button><button class="btn" id="cls">Garder le fichier tel quel</button><button class="btn r" id="clc">Annuler</button></div></div></div>
 <div id="nvm" class="ov" hidden><div class="fc nvc"><button id="nvx" aria-label="Fermer" class="xb">✕</button>
  <h3>✨ Nouveautés</h3><div id="nvb"></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn b" id="nvo">J'ai compris</button></div></div></div>
 <div id="qrm" class="ov" hidden><div class="fc qc"><button id="qx" aria-label="Fermer" class="xb">✕</button>
@@ -277,6 +281,17 @@ $('#fx').onclick=()=>$('#fiche').hidden=true;$('#fiche').onclick=e=>{if(e.target
 document.onkeydown=e=>{if(e.key==='Escape'){$('#grm').hidden=true;$('#fiche').hidden=true;$('#qrm').hidden=true}};
 $('#fc').onchange=$('#fs').oninput=draw;
 /* Choix classe(s) / groupe d'enseignement pour un CSV Pronote */
+/* Le nom du fichier peut être la classe : confirmation demandée (fichier sans classe, ou nom de fichier ressemblant à une classe et différent de celles du fichier) */
+const nrm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const lookClasse=s=>s.length<=14&&s.split(/\s+/).length<=3&&(/\d/.test(s)||/^(t(erminale|le|g)|seconde|premi)/i.test(s));
+function choixClasse(a){const nom=a.suggestion||'';if(!a.n||!nom)return Promise.resolve(undefined);
+ const noms=a.classes.filter(c=>c.nom).map(c=>c.nom),dej=noms.some(x=>nrm(x)===nrm(nom));
+ const sans=a.vides||0,diff=!dej&&lookClasse(nom);if(dej||(!sans&&!diff))return Promise.resolve(undefined);
+ return new Promise(res=>{const o=$('#clm');$('#cln').value=nom;
+  $('#clt').innerHTML=sans?`${sans===a.n?'Aucun élève n’a de classe':sans+' élève(s) sur '+a.n+' n’ont pas de classe'} dans ce fichier. Le nom du fichier, <b>« ${esc(nom)} »</b>, est-il la classe ?`:`Le nom du fichier, <b>« ${esc(nom)} »</b>, ressemble à une classe, alors que le fichier indique : ${esc(noms.join(', '))}. Rattacher tous les élèves à « ${esc(nom)} » ?`;
+  const fin=v=>{o.hidden=true;res(v)};
+  $('#clo').onclick=()=>{const v=$('#cln').value.trim();if(!v){$('#cln').focus();return}fin({nom:v,mode:sans?'vides':'tous'})};
+  $('#cls').onclick=()=>fin(undefined);$('#clc').onclick=()=>fin(null);$('#clx').onclick=()=>fin(null);o.hidden=false;$('#cln').focus()})}
 function choixGroupe(a,force){return new Promise(res=>{const o=$('#grm');$('#grn').value=a.suggestion||'';
  $('#grl').innerHTML=a.classes.map(c=>`<li><b>${esc(c.nom||'(sans classe)')}</b> · ${c.n} élève(s)</li>`).join('');
  $('#grt').textContent=force&&a.classes.length<2?'Tous les élèves de ce fichier seront ajoutés au groupe ci-dessous, en gardant leur classe.':'Ce fichier contient des élèves de '+a.classes.length+' classes de rattachement. S’agit-il d’un groupe d’enseignement (section sportive, choix de menu…) ? Les élèves resteront dans leur classe et seront en plus ajoutés au groupe.';
@@ -284,7 +299,10 @@ function choixGroupe(a,force){return new Promise(res=>{const o=$('#grm');$('#grn
  $('#gro').onclick=()=>{const v=$('#grn').value.trim();if(!v){$('#grn').focus();return}fin({groupe:v})};
  $('#grs').onclick=()=>fin({});$('#grc').onclick=()=>fin(null);$('#grx').onclick=()=>fin(null);o.hidden=false;$('#grn').focus()})}
 async function imp(f){const m=$('#msg');if(/\.json$/i.test(f.name))return bkRestaurer(f);const gf=$('#gcb').checked;$('#gcb').checked=false;let opt={};
- if(!/\.xlsx$/i.test(f.name)){try{const a=await EPS.analyserCSV(f);if(a.classes.length>1||(gf&&a.n)){opt=await choixGroupe(a,gf);if(!opt){m.style.color='#ffd27f';m.textContent='Import annulé.';return}}}catch(e){}}
+ if(!/\.xlsx$/i.test(f.name)){try{const a=await EPS.analyserCSV(f);let cl;const ann=()=>{m.style.color='#ffd27f';m.textContent='Import annulé.'};
+  if(!gf){cl=await choixClasse(a);if(cl===null)return ann();if(cl){opt.classe=cl.nom;opt.classeMode=cl.mode}}
+  const nc=cl?(cl.mode==='tous'?1:new Set([...a.classes.filter(c=>c.nom).map(c=>nrm(c.nom)),nrm(cl.nom)]).size):a.classes.length;
+  if(nc>1||(gf&&a.n)){const g=await choixGroupe(a,gf);if(!g)return ann();Object.assign(opt,g)}}catch(e){}}
  try{const r=await EPS.importFile(f,opt);m.style.color='#6ff0a0';
  m.textContent=`✅ ${r.add} ajouté(s), ${r.upd} mis à jour.`+(r.apps?` ${r.apps} feuille(s) d'application intégrée(s).`:'')+(r.ign?` ${r.ign} ligne(s) ignorée(s) (élève absent de la liste).`:'')+(r.cols&&r.cols.length?` ⚠ Colonnes absentes : ${r.cols.join(', ')}`:'')+(opt.groupe?` Groupe « ${opt.groupe} » mis à jour : les élèves gardent leur classe.`:'')+(/\.xlsx$/i.test(f.name)?'':' La liste est disponible pour toutes vos applications.');refresh()}catch(e){m.style.color='#ff8f8f';m.textContent='❌ '+e.message}}
 async function dl(){EPS.downloadXLSX(await EPS.exportXLSX(),'Mes_Apps_EPS_'+new Date().toISOString().slice(0,10)+'.xlsx')}
