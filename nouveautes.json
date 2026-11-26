@@ -1,5 +1,14 @@
 [
  {
+  "v": "1.29.0",
+  "date": "2026-11-26",
+  "items": [
+   "Nouvelle catégorie « AS – UNSS » : ConvocUNSS, TablMarkUNSS et les deux Gestion AS sont regroupées à part.",
+   "Icône d'installation de Mes Apps EPS détourée (coins arrondis, fond transparent) ; icônes Gestion AS en carré à coins arrondis.",
+   "Vérification des mises à jour harmonisée dans toutes les applications (fichier de version unique par appli)."
+  ]
+ },
+ {
   "v": "1.28.0",
   "date": "2026-11-26",
   "items": [

@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Mes Apps EPS</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14151a">
-<link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-maskable-192.png">
 <style>
 :root{--bg:#0a1428;--tx:#eef3ff;--mut:rgba(238,243,255,.62);--glass:rgba(255,255,255,.07);--bd:rgba(255,255,255,.15);--c1:#ff8a1f;--c2:#2f9bff;--g1:rgba(255,138,31,.20);--g2:rgba(47,155,255,.22);--onc:#fff;--c3:#ffd27a;--nav:linear-gradient(135deg,#2f9bff,#0a4fd0);--ok:#6ff0a0;--ko:#ff8f8f}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}[hidden]{display:none!important}
@@ -308,7 +308,7 @@ const tc=a=>/^#[0-9a-f]{3,8}\s*,\s*#[0-9a-f]{3,8}$/i.test(a.couleur||'')?` style
 function tile(a,base){const ic=a.icon?new URL(a.icon,base).href:'';
  return `<a class="tile ${a.url?'':'off'}${a.vedette?' vedette':''}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${ic?`<img src="${esc(ic)}" alt="" width=76 height=76 onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span>${a.vedette?'<span class="badge">✨ Créez votre appli</span>':''}<b>${esc(a.nom)}</b>${a.desc?`<small>${esc(a.desc)}</small>`:''}${a.auteur?`<i class="au">par ${esc(a.auteur)}</i>`:''}</a>`}
 let CM;const communaute=()=>CM||(CM=fetch('communaute.json').then(r=>{if(!r.ok)throw 0;return r.json()}).then(L=>(Array.isArray(L)?L:[]).filter(a=>a&&a.nom&&/^https:\/\//.test(a.url||'')).map(a=>({...a,_c:1}))).catch(()=>[]));
-const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion']];
+const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion'],['AS-UNSS','🏅 AS – UNSS']];
 const catKey=c=>{const k=(c||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();if(k==='tests'||k==='evaluations'||k==='evaluation')return'Evaluations';const f=CATS.find(([n])=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()===k);return f?f[0]:'Autres'};
 /* Tuiles regroupées par catégorie : appli « vedette » en tête, sections dans l'ordre de CATS, tuiles inactives à la fin */
 function sections(el,T,tf,vide){const on=T.filter(a=>a.url),off=T.filter(a=>!a.url),ved=on.filter(a=>a.vedette),reste=on.filter(a=>!a.vedette);
