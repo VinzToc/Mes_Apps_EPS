@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.31.2",
+  "date": "2026-11-27",
+  "items": [
+   "Gestion AS : validations en vert, éléments manquants en rouge, bouton ✏️ pour ouvrir la fiche de l'élève."
+  ]
+ },
+ {
   "v": "1.31.1",
   "date": "2026-11-27",
   "items": [
