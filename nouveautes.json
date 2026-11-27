@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.32.0",
+  "date": "2026-11-27",
+  "items": [
+   "Gestion AS : zone « Cotisation en ligne » (lien HelloAsso ou autre) à diffuser aux élèves ; l'import de fichiers .xlsx élèves est retiré, la remise se fait par QR code."
+  ]
+ },
+ {
   "v": "1.31.2",
   "date": "2026-11-27",
   "items": [
