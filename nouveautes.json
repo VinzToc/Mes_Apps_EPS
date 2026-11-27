@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.34.1",
+  "date": "2026-11-28",
+  "items": [
+   "Gestion AS : le QR d'inscription de Mon AS est de nouveau reconnu et beaucoup plus simple à scanner ; lecture caméra améliorée et scanner affiché dans un cadre."
+  ]
+ },
+ {
   "v": "1.34.0",
   "date": "2026-11-27",
   "items": [
