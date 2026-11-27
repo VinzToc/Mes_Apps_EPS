@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.31.1",
+  "date": "2026-11-27",
+  "items": [
+   "Gestion AS : la caméra se ferme seule après un scan d'inscription, bouton « Fiche » dans la liste des élèves, pastilles à côté du nom, onglets du bas plus visibles, onglet « Cartes d'AS »."
+  ]
+ },
+ {
   "v": "1.31.0",
   "date": "2026-11-27",
   "items": [
