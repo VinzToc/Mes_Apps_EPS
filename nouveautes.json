@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.34.0",
+  "date": "2026-11-27",
+  "items": [
+   "Nouvelle appli CreaTournoi : tournois et rencontres sur plusieurs terrains ou tables (championnat, poules + phase finale, élimination directe), poules autogérées avec arbitre désigné parmi les joueurs au repos.",
+   "Appli élève associée TournoiTerrain : le gestionnaire de chaque poule reçoit son tournoi par QR code et renvoie les scores au professeur, sans réseau."
+  ]
+ },
+ {
   "v": "1.33.0",
   "date": "2026-11-27",
   "items": [
