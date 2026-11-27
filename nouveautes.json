@@ -1,5 +1,15 @@
 [
  {
+  "v": "1.31.0",
+  "date": "2026-11-27",
+  "items": [
+   "Nouvelle application Gestion AS (catégorie AS – UNSS) : elle remplace Gestion AS ENT et Gestion AS Pronote. Inscriptions reçues de Mon AS (QR code ou fichier .xlsx), rapprochement avec la liste Pronote du portail, cotisation, licence, cartes d'AS en PDF, appel par scan et statistiques.",
+   "Mon AS (Applis EPS Élèves) : fiche d'inscription 2026-2027 avec signatures de l'élève et du responsable, carte d'AS générée une fois la fiche complète.",
+   "eps-core.js v2.7 : import XLSX avec liste des lignes à rapprocher manuellement (option orphelins), EPS.delExt et EPS.delExtTous pour supprimer les données d'une application.",
+   "Gestion AS est à réinstaller sur l'écran d'accueil (nouvelle adresse et nouvelle icône)."
+  ]
+ },
+ {
   "v": "1.30.1",
   "date": "2026-11-26",
   "items": [

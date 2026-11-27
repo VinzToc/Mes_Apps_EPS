@@ -1,10 +1,11 @@
-/* eps-core.js v2.6 — base de données élèves partagée (IndexedDB "MesAppsEPS"), 100 % locale (RGPD).
+/* eps-core.js v2.7 — base de données élèves partagée (IndexedDB "MesAppsEPS"), 100 % locale (RGPD).
    Import : CSV Pronote, CSV/XLSX Mes Apps EPS.  Export : XLSX multi-feuilles (une feuille par application).
    Données d'une application : EPS.setExt(appId, eleveId, {champ:valeur,...})
      - mode « colonnes » : une ligne par élève, une colonne par champ
      - mode « lignes »   : champ spécial  lignes:[{col:val,...},...]  → une ligne par enregistrement (ex. un test)
    v2.1 : EPS.addLigne(appId,eleveId,ligne) ajoute un enregistrement daté sans doublon ; EPS.exportXLSX({ids,apps}) exporte un sous-ensemble ;
           EPS.downloadXLSX(octets,nomFichier) déclenche le téléchargement.
+   v2.7 : importXLSX(buf,nom,{orphelins:[]}) remplit le tableau fourni avec les lignes de feuilles d'application qu'aucun élève n'a pu recevoir (rapprochement manuel) ; EPS.delExt(appId,id) et EPS.delExtTous([appIds]) suppriment les données d'application (Gestion AS / Mon AS).
    v2.5 : EPS.supprimerEleves(ids) retire des élèves de la base (classe, groupe ou sélection).
    v2.6 : importFile(f,{classe,classeMode:'tous'|'vides'}) impose une classe (ex. nom du fichier) ; analyserCSV renvoie aussi {vides}.
    v2.5 : groupes d'enseignement (1res/Tles) : un élève GARDE sa classe et peut en plus appartenir à un ou plusieurs groupes (champ « groupes »:[...]) ; EPS.analyserCSV(file) liste les classes d'un CSV ; importFile(file,{groupe:'Nom'}) ajoute le groupe à chaque élève du fichier sans toucher à sa classe ; EPS.retirerDuGroupe(ids,groupe) ; colonne « Groupes » (séparés par « | ») dans les exports.
@@ -172,8 +173,8 @@ const EPS={parseCSV,splitName,normSex,
    const m=meta[s.name]||{app:s.name},fields=h.map((_,i)=>i).filter(i=>![ni,pi,bi,ci].includes(i)&&h[i]!=='');
    const rows=[],cnt={};
    for(const r of s.rows.slice(1)){if(!r)continue;const id=resolve(cell(r[ni]),cell(r[pi]),bi>=0?cell(r[bi]):'',ci>=0?cell(r[ci]):'');
-    if(!id){if(cell(r[ni])||cell(r[pi]))ign++;continue}
     const o={};fields.forEach(i=>{const v=r[i];if(v!==undefined&&v!=='')o[h[i]]=typeof v==='string'?v.trim():v});
+    if(!id){if(cell(r[ni])||cell(r[pi])){ign++;if(Array.isArray(opt.orphelins))opt.orphelins.push({app:m.app,nom:cell(r[ni]),prenom:cell(r[pi]),naissance:bi>=0?cell(r[bi]):'',classe:ci>=0?cell(r[ci]):'',champs:o})}continue}
     ids.add(id);rows.push({id,o});cnt[id]=(cnt[id]||0)+1}
    const mode=m.mode||(Object.values(cnt).some(n=>n>1)?'lignes':'colonnes');
    if(rows.length)apps++;
@@ -215,6 +216,11 @@ const EPS={parseCSV,splitName,normSex,
   const cur=((e.ext||{})[appId]||{}).lignes;return EPS.setExt(appId,id,{lignes:mergeLignes(Array.isArray(cur)?cur:[],[ligne])})},
  /* Télécharge un classeur produit par exportXLSX */
  downloadXLSX(bytes,name){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([bytes],{type:XLSX_MIME}));a.download=name||'Mes_Apps_EPS.xlsx';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)},
+ async delExt(appId,id){const d=await open();return new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),o=t.objectStore('eleves');const g=o.get(id);
+  g.onsuccess=()=>{const e=g.result;if(e&&e.ext&&e.ext[appId]){delete e.ext[appId];o.put(e)}};t.oncomplete=ok;t.onerror=()=>ko(t.error)})},
+ async delExtTous(appIds){const d=await open();return new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),o=t.objectStore('eleves'),r=o.openCursor();let n=0;
+  r.onsuccess=()=>{const c=r.result;if(!c)return;const e=c.value;let ch=false;for(const a of appIds)if(e.ext&&e.ext[a]){delete e.ext[a];ch=true}if(ch){c.update(e);n++}c.continue()};t.oncomplete=()=>ok(n);t.onerror=()=>ko(t.error)})},
+ version:'2.7',
  async meta(){return tx('meta','readonly',o=>o.get('lastImport'))},
  /* Supprime des élèves (fiche + toutes leurs données d'applications). Retourne le nombre supprimé. */
  async supprimerEleves(ids){const set=new Set(ids||[]);const d=await open();let n=0;await new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),st=t.objectStore('eleves');set.forEach(id=>{st.delete(id);n++});t.oncomplete=ok;t.onerror=()=>ko(t.error)});return n},
